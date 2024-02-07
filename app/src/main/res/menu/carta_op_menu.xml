@@ -3,13 +3,11 @@
 
     <item
         android:id="@+id/editar"
-        android:icon="@drawable/editar"
-        android:title="Editar" />
+        android:title="Editar Carta" />
 
     <item
         android:id="@+id/eliminar"
-        android:icon="@drawable/borrar"
         android:actionLayout="@layout/action_borrar"
-        android:title="Borrar" />
+        android:title="Borrar Carta" />
 
 </menu>

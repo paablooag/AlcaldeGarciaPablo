@@ -9,12 +9,12 @@ import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.practicafinal.activities.administrador.AddEvento
+import com.example.practicafinal.actividades.actividades_admin.AddEvento
 import com.example.practicafinal.Evento
 import com.example.practicafinal.EventoAdaptador
 import com.example.practicafinal.R
-import com.example.practicafinal.activities.Autor
-import com.example.practicafinal.activities.MainActivity
+import com.example.practicafinal.actividades.Autor
+import com.example.practicafinal.actividades.MainActivity
 import com.example.practicafinal.databinding.FragmentEventosAdminBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -67,9 +67,7 @@ class EventosFragmentAdmin : Fragment() {
 
         _binding!!.settings.setOnClickListener {
             val popupMenu = PopupMenu(context, it)
-
             popupMenu.inflate(R.menu.popup_menu)
-
             popupMenu.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.log_out -> {
@@ -91,17 +89,12 @@ class EventosFragmentAdmin : Fragment() {
             }
             popupMenu.show()
         }
-
-        _binding!!.add.setOnClickListener {
-
+        _binding!!.addCarta.setOnClickListener {
             var newIntent= Intent(context, AddEvento::class.java)
             startActivity(newIntent)
-
         }
-
         return root
     }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

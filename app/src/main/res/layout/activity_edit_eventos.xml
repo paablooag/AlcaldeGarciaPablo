@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.administrador.EditEventos">
+    tools:context=".actividades.actividades_admin.EditEventos">
 
-    <androidx.cardview.widget.CardView
+
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,8 +43,8 @@
                 android:hint="Nombre"
                 android:inputType="text"
                 />
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/add_fecha"
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/add_categoria"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
@@ -51,38 +52,35 @@
                 app:layout_constraintTop_toBottomOf="@id/add_name"
                 android:layout_marginHorizontal="15dp"
                 android:layout_marginVertical="30dp"
-                android:hint="Fecha"
-                android:inputType="date"
                 />
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/add_precio"
-                android:layout_width="100dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/add_aforo"
-                app:layout_constraintTop_toBottomOf="@id/add_fecha"
+                app:layout_constraintStart_toStartOf="@id/add_name"
+                app:layout_constraintTop_toBottomOf="@id/add_categoria"
                 android:layout_marginHorizontal="15dp"
                 android:layout_marginVertical="30dp"
                 android:hint="Precio"
                 android:inputType="numberDecimal"
                 />
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/add_aforo"
-                android:layout_width="100dp"
+                android:id="@+id/add_stock"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@id/add_precio"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_fecha"
+                app:layout_constraintTop_toBottomOf="@id/add_precio"
+                app:layout_constraintStart_toStartOf="@id/add_precio"
                 android:layout_marginHorizontal="15dp"
                 android:layout_marginVertical="30dp"
-                android:hint="Aforo Max."
+                android:hint="Stock"
                 android:inputType="number"
                 />
             <Button
                 android:id="@+id/guardar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/add_aforo"
+                app:layout_constraintTop_toBottomOf="@id/add_stock"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginVertical="30dp"
@@ -95,6 +93,5 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
-
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.constraintlayout.widget.ConstraintLayout>

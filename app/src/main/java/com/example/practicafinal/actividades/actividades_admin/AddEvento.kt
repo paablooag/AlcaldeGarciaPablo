@@ -1,4 +1,4 @@
-package com.example.practicafinal.activities.administrador
+package com.example.practicafinal.actividades.actividades_admin
 
 import android.content.Intent
 import android.net.Uri
@@ -38,7 +38,7 @@ class AddEvento : AppCompatActivity(), CoroutineScope {
     private lateinit var job: Job
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_evento)
+        setContentView(R.layout.activity_anadir_evento)
         val this_activity = this
         job = Job()
 

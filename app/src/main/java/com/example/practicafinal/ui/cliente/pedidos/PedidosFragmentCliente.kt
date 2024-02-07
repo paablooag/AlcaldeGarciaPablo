@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import com.example.practicafinal.R
-import com.example.practicafinal.activities.Autor
-import com.example.practicafinal.activities.MainActivity
+import com.example.practicafinal.actividades.Autor
+import com.example.practicafinal.actividades.MainActivity
 import com.example.practicafinal.databinding.FragmentPedidosClienteBinding
 import com.google.firebase.auth.FirebaseAuth
 

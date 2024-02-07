@@ -1,30 +1,29 @@
-package com.example.practicafinal.activities.administrador
+package com.example.practicafinal.actividades.actividades_cliente
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.practicafinal.R
-import com.example.practicafinal.databinding.ActivityInicioAdminBinding
+import com.example.practicafinal.databinding.ActivityInicioClienteBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class InicioAdmin : AppCompatActivity() {
-    private lateinit var binding: ActivityInicioAdminBinding
+class InicioCliente : AppCompatActivity() {
+    private lateinit var binding: ActivityInicioClienteBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
-        binding = ActivityInicioAdminBinding.inflate(layoutInflater)
+        binding = ActivityInicioClienteBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
 
-        val navView: BottomNavigationView = binding.navViewAdmin
+        val navView: BottomNavigationView = binding.navViewCliente
 
-        val navController = findNavController(R.id.nav_host_fragment_activity_navegacion_admin)
+        val navController = findNavController(R.id.nav_host_fragment_activity_navegacion_cliente)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
 
         navView.setupWithNavController(navController)
     }
-
 }

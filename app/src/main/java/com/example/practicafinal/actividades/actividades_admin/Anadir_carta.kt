@@ -1,4 +1,4 @@
-package com.example.practicafinal.activities.administrador
+package com.example.practicafinal.actividades.actividades_admin
 
 import android.content.Intent
 import android.net.Uri
@@ -25,7 +25,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-class Add_carta : AppCompatActivity(), CoroutineScope {
+class Anadir_carta : AppCompatActivity(), CoroutineScope {
 
     private lateinit var nombreLayout: TextInputEditText
     private lateinit var categoriaLayout: Spinner
@@ -42,7 +42,7 @@ class Add_carta : AppCompatActivity(), CoroutineScope {
     private lateinit var job: Job
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_carta)
+        setContentView(R.layout.activity_anadir_carta)
         val this_activity = this
         job = Job()
 

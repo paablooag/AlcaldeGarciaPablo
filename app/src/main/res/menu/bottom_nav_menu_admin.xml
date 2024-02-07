@@ -4,15 +4,15 @@
     <item
         android:id="@+id/navigation_home"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_home" />
+        android:title="" />
 
     <item
         android:id="@+id/navigation_eventos"
         android:icon="@drawable/evento"
-        android:title="@string/title_event" />
+        android:title="" />
 
     <item
         android:id="@+id/navigation_pedidos"
         android:icon="@drawable/pedido"
-        android:title="@string/title_pedidos" />
+        android:title="" />
 </menu>

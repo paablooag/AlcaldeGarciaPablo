@@ -9,12 +9,12 @@ import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.practicafinal.activities.administrador.Add_carta
+import com.example.practicafinal.actividades.actividades_admin.Anadir_carta
 import com.example.practicafinal.Carta
 import com.example.practicafinal.CartaAdaptador
-import com.example.practicafinal.activities.MainActivity
+import com.example.practicafinal.actividades.MainActivity
 import com.example.practicafinal.R
-import com.example.practicafinal.activities.Autor
+import com.example.practicafinal.actividades.Autor
 import com.example.practicafinal.databinding.FragmentHomeAdminBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -92,12 +92,11 @@ class HomeFragmentAdmin : Fragment() {
             popupMenu.show()
         }
 
-        _binding!!.add.setOnClickListener {
-
-            var newIntent= Intent(context, Add_carta::class.java)
+        _binding!!.addCarta.setOnClickListener {
+            var newIntent= Intent(context, Anadir_carta::class.java)
             startActivity(newIntent)
-
         }
+
 
         return _binding!!.root
     }

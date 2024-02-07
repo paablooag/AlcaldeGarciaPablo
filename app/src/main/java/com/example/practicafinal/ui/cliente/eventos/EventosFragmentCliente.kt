@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.practicafinal.Evento
 import com.example.practicafinal.EventoAdaptador
 import com.example.practicafinal.R
-import com.example.practicafinal.activities.Autor
-import com.example.practicafinal.activities.MainActivity
+import com.example.practicafinal.actividades.Autor
+import com.example.practicafinal.actividades.MainActivity
 import com.example.practicafinal.databinding.FragmentEventosClienteBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot

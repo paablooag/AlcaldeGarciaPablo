@@ -1,4 +1,4 @@
-package com.example.practicafinal.activities.administrador
+package com.example.practicafinal.actividades.actividades_admin
 
 import android.content.Intent
 import android.net.Uri

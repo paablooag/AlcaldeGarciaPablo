@@ -1,4 +1,4 @@
-package com.example.practicafinal.activities
+package com.example.practicafinal.actividades
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,8 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.practicafinal.R
 import com.example.practicafinal.Usuario
 import com.example.practicafinal.Utilidades
-import com.example.practicafinal.activities.administrador.InicioAdmin
-import com.example.practicafinal.activities.cliente.InicioCliente
+import com.example.practicafinal.actividades.actividades_admin.InicioAdmin
+import com.example.practicafinal.actividades.actividades_cliente.InicioCliente
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.CoroutineScope

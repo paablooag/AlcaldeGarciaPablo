@@ -1,4 +1,4 @@
-package com.example.practicafinal.activities
+package com.example.practicafinal.actividades
 
 import android.os.Bundle
 import android.widget.Button

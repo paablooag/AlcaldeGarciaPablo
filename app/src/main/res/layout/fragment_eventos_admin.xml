@@ -6,33 +6,34 @@
     android:layout_height="match_parent"
     tools:context=".ui.administrador.eventos.EventosFragmentAdmin">
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/icon"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="@color/white"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        >
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/logo"
+            android:adjustViewBounds="true"
+            />
+    </androidx.cardview.widget.CardView>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/header"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="80dp"
             android:background="@color/black"
             app:layout_constraintTop_toTopOf="parent"
             >
-            <androidx.cardview.widget.CardView
-                android:id="@+id/icon"
-                android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:backgroundTint="@color/white"
-                android:layout_marginHorizontal="20dp"
-                >
-                <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:src="@drawable/logo"
-                    android:adjustViewBounds="true"
-                    />
-            </androidx.cardview.widget.CardView>
+
             <ImageView
                 android:id="@+id/settings"
                 android:layout_width="30dp"
@@ -62,23 +63,16 @@
         android:padding="4dp"
         />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/add"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:layout_constraintEnd_toEndOf="parent"
+    <ImageView
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="110dp"
+        android:id="@+id/add_carta"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:src="@drawable/add"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="100dp"
-        android:layout_marginEnd="25dp"
-        android:backgroundTint="@color/cafe"
-        app:cardCornerRadius="20dp"
-        >
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/add"
-            android:layout_gravity="center"
-            />
-    </androidx.cardview.widget.CardView>
+        app:layout_constraintEnd_toEndOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

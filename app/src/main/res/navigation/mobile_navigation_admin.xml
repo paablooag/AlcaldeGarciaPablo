@@ -14,7 +14,8 @@
     <fragment
         android:id="@+id/navigation_eventos"
         android:name="com.example.practicafinal.ui.administrador.eventos.EventosFragmentAdmin"
-        tools:layout="@layout/fragment_eventos_admin" />
+        tools:layout="@layout/fragment_eventos_admin"
+        />
 
     <fragment
         android:id="@+id/navigation_pedidos"
