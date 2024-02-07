@@ -3,6 +3,7 @@ package com.example.practicafinal.actividades.actividades_admin
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.practicafinal.Evento
 import com.example.practicafinal.R
 import com.example.practicafinal.Utilidades
+import com.example.practicafinal.ui.administrador.eventos.EventosFragmentAdmin
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -117,5 +119,10 @@ class AddEvento : AppCompatActivity(), CoroutineScope {
             url_photo = it
             photo.setImageURI(it)
         }
+    }
+
+    fun cancelar(view: View) {
+        val newIntent= Intent(applicationContext, InicioAdmin::class.java)
+        startActivity(newIntent)
     }
 }

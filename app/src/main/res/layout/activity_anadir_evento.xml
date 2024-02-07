@@ -6,15 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".actividades.actividades_admin.AddEvento">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginHorizontal="60dp"
-        >
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -80,14 +72,27 @@
                 />
             <Button
                 android:id="@+id/guardar"
-                android:layout_width="wrap_content"
+                android:layout_width="105dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/add_aforo"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginVertical="30dp"
-                android:text="Guardar"
-                />
+                android:text="Añadir"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cancel_button"
+                android:background="@drawable/sqaure_button"
+                app:layout_constraintTop_toBottomOf="@id/add_aforo" />
+
+            <Button
+                android:background="@drawable/sqaure_button"
+                android:id="@+id/cancel_button"
+                android:layout_width="105dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/guardar"
+                app:layout_constraintEnd_toStartOf="@+id/guardar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/guardar"
+                android:text="Cancelar"
+                android:onClick="cancelar"/>
+
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
@@ -95,6 +100,5 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
