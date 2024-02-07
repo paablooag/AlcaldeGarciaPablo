@@ -108,7 +108,7 @@ class EditarCarta : AppCompatActivity(), CoroutineScope {
 
                 Toast.makeText(
                     applicationContext, "Faltan datos en el " +
-                            "formularion", Toast.LENGTH_SHORT
+                            "formulario", Toast.LENGTH_SHORT
                 ).show()
 
             } else if (Utilidades.existeCarta(
@@ -116,7 +116,7 @@ class EditarCarta : AppCompatActivity(), CoroutineScope {
                     nombre.text.toString().trim()
                 ) && !nombre.text.toString().trim().equals(beforeName)
             ) {
-                Toast.makeText(applicationContext, "Esa Carta ya existe", Toast.LENGTH_SHORT)
+                Toast.makeText(applicationContext, "Carta existente", Toast.LENGTH_SHORT)
                     .show()
             } else {
 
@@ -149,7 +149,7 @@ class EditarCarta : AppCompatActivity(), CoroutineScope {
                     Utilidades.toastCourutine(
                         this_activity,
                         applicationContext,
-                        "Carta modificado con exito"
+                        "Carta modificado"
                     )
                     val activity = Intent(applicationContext, InicioAdmin::class.java)
                     startActivity(activity)

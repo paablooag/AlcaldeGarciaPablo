@@ -3,6 +3,7 @@ package com.example.practicafinal.actividades.actividades_admin
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -84,14 +85,14 @@ class Anadir_carta : AppCompatActivity(), CoroutineScope {
         add.setOnClickListener {
 
             if (nombreLayout.text.toString().trim().isEmpty()||categoria==null || precioLayout.text.toString().trim().isEmpty() || stockLayout.text.toString().trim().isEmpty()){
-                Toast.makeText(applicationContext, "Faltan campos por rellenar", Toast.LENGTH_SHORT)
+                Toast.makeText(applicationContext, "Rellene todo", Toast.LENGTH_SHORT)
                     .show()
             }else if(url_photo==null){
                 Toast.makeText(
-                    applicationContext, "Falta seleccionar la foto", Toast.LENGTH_SHORT
+                    applicationContext, "Seleccione la imagen", Toast.LENGTH_SHORT
                 ).show()
             }else if(Utilidades.existeCarta(carta_list, nombreLayout.text.toString().trim())){
-                Toast.makeText(applicationContext, "Esa carta ya existe", Toast.LENGTH_SHORT)
+                Toast.makeText(applicationContext, "Carta existente", Toast.LENGTH_SHORT)
                     .show()
             }else{
                 var generated_id:String?=db_ref.child("Cartas").push().key
@@ -114,7 +115,7 @@ class Anadir_carta : AppCompatActivity(), CoroutineScope {
                     Utilidades.toastCourutine(
                         this_activity,
                         applicationContext,
-                        "Carta creada con exito"
+                        "Carta creada"
                     )
 
                     val newIntent= Intent(applicationContext, InicioAdmin::class.java)
@@ -141,5 +142,10 @@ class Anadir_carta : AppCompatActivity(), CoroutineScope {
             url_photo = it
             photo.setImageURI(it)
         }
+    }
+
+    fun cancelar(view: View) {
+        val newintent = Intent(this, InicioAdmin::class.java)
+        startActivity(newintent)
     }
 }

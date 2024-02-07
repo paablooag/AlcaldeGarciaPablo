@@ -59,14 +59,14 @@ class AddEvento : AppCompatActivity(), CoroutineScope {
         add.setOnClickListener {
 
             if (nombreLayout.text.toString().trim().isEmpty()||fechaLayout.text.toString().trim().isEmpty() || precioLayout.text.toString().trim().isEmpty() || aforoLayout.text.toString().trim().isEmpty()){
-                Toast.makeText(applicationContext, "Faltan campos por rellenar", Toast.LENGTH_SHORT)
+                Toast.makeText(applicationContext, "Rellene todo", Toast.LENGTH_SHORT)
                     .show()
             }else if(url_photo==null){
                 Toast.makeText(
-                    applicationContext, "Falta seleccionar la foto", Toast.LENGTH_SHORT
+                    applicationContext, "Seleccione la imagen", Toast.LENGTH_SHORT
                 ).show()
             }else if(Utilidades.existeEvento(evento_list, nombreLayout.text.toString().trim(),fechaLayout.text.toString().trim())){
-                Toast.makeText(applicationContext, "Ese evento ya existe", Toast.LENGTH_SHORT)
+                Toast.makeText(applicationContext, "Evento existente", Toast.LENGTH_SHORT)
                     .show()
             }else{
                 var generated_id:String?=db_ref.child("Eventos").push().key

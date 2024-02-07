@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.example.practicafinal.R
 import com.example.practicafinal.Usuario
 import com.example.practicafinal.Utilidades
@@ -22,6 +23,11 @@ class ComprobadorTipo : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comprobador_tipo)
+
+        Glide.with(this)
+            .asGif()
+            .load(R.drawable.loaging)
+            .into(findViewById(R.id.imagen_loading))
 
         var sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this)
 
@@ -46,6 +52,7 @@ class ComprobadorTipo : AppCompatActivity() {
             }
         }
     }
+
 
     override fun onBackPressed() {
         finish()

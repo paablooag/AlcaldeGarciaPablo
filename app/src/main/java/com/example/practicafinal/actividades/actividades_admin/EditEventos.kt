@@ -86,7 +86,7 @@ class EditEventos : AppCompatActivity() , CoroutineScope {
                     fecha.text.toString().trim()
                 ) && !nombre.text.toString().trim().equals(beforeName)
             ) {
-                Toast.makeText(applicationContext, "Esa Carta ya existe", Toast.LENGTH_SHORT)
+                Toast.makeText(applicationContext, "Carta existente", Toast.LENGTH_SHORT)
                     .show()
             } else {
 
@@ -119,7 +119,7 @@ class EditEventos : AppCompatActivity() , CoroutineScope {
                     Utilidades.toastCourutine(
                         this_activity,
                         applicationContext,
-                        "Evento modificado con exito"
+                        "Evento modificado"
                     )
                     val activity = Intent(applicationContext, InicioAdmin::class.java)
                     startActivity(activity)
