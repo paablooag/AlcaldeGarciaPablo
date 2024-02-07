@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.eventos.EventosFragment">
+    tools:context=".ui.administrador.eventos.EventosFragmentAdmin">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/header"
@@ -15,7 +15,7 @@
             >
             <androidx.cardview.widget.CardView
                 android:id="@+id/icon"
-                android:layout_width="120dp"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -25,14 +25,25 @@
                 android:layout_marginHorizontal="20dp"
                 >
                 <ImageView
-                    android:layout_width="wrap_content"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:src="@drawable/pokemonlogo"
+                    android:src="@drawable/logo"
                     android:adjustViewBounds="true"
                     />
             </androidx.cardview.widget.CardView>
+            <ImageView
+                android:id="@+id/settings"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/settings"
+                android:adjustViewBounds="true"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="15dp"
+                />
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
@@ -42,12 +53,12 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="20dp"
-        android:id="@+id/recyclerView"
+        android:id="@+id/recyclerViewEventos"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@id/header"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:listitem="@layout/item_carta"
+        tools:listitem="@layout/item_evento"
         android:padding="4dp"
         />
 

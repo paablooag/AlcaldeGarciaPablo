@@ -9,54 +9,56 @@
     android:padding="10dp">
 
     <ImageView
-        android:id="@+id/photo_item"
+        android:id="@+id/photo_item_evento"
         android:layout_width="match_parent"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="false"
         android:layout_height="100dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:src="@drawable/pokemonlogo"
+        android:src="@drawable/logo"
         />
 
     <TextView
-        android:id="@+id/name_item"
+        android:id="@+id/name_item_evento"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/photo_item"
+        app:layout_constraintTop_toBottomOf="@id/photo_item_evento"
         android:text="Nombre:"
         android:layout_marginVertical="15dp"
         android:layout_marginHorizontal="15dp"
         />
 
     <TextView
-        android:id="@+id/fecha_item"
+        android:id="@+id/fecha_item_evento"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/name_item"
+        app:layout_constraintTop_toBottomOf="@id/name_item_evento"
         android:text="Fecha:"
         android:layout_marginVertical="15dp"
         android:layout_marginHorizontal="15dp"
         />
 
     <TextView
-        android:id="@+id/aforo_item"
+        android:id="@+id/aforo_item_evento"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fecha_item"
+        app:layout_constraintTop_toBottomOf="@id/fecha_item_evento"
         android:text="Aforo Maximo:"
         android:layout_marginVertical="15dp"
         android:layout_marginHorizontal="15dp"
         />
 
     <TextView
-        android:id="@+id/precio_item"
+        android:id="@+id/precio_item_evento"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/photo_item"
+        app:layout_constraintTop_toBottomOf="@id/photo_item_evento"
         android:text="Precio:"
         android:layout_marginVertical="15dp"
         android:layout_marginHorizontal="15dp"

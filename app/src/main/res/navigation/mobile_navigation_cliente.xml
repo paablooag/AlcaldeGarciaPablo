@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation_cliente"
+    app:startDestination="@+id/navigation_home_cliente">
+
+    <fragment
+        android:id="@+id/navigation_home_cliente"
+        android:name="com.example.practicafinal.ui.cliente.home.HomeFragmentCliente"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home_cliente" />
+
+    <fragment
+        android:id="@+id/navigation_eventos_cliente"
+        android:name="com.example.practicafinal.ui.cliente.eventos.EventosFragmentCliente"
+        tools:layout="@layout/fragment_eventos_cliente" />
+
+    <fragment
+        android:id="@+id/navigation_pedidos_cliente"
+        android:name="com.example.practicafinal.ui.cliente.pedidos.PedidosFragmentCliente"
+        tools:layout="@layout/fragment_pedidos_cliente" />
+</navigation>

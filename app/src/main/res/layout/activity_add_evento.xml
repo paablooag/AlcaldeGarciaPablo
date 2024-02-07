@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.administrador.EditarCarta">
+    tools:context=".activities.administrador.AddEvento">
 
     <androidx.cardview.widget.CardView
         android:layout_width="0dp"
@@ -42,8 +42,8 @@
                 android:hint="Nombre"
                 android:inputType="text"
                 />
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/add_categoria"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/add_fecha"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
@@ -51,36 +51,38 @@
                 app:layout_constraintTop_toBottomOf="@id/add_name"
                 android:layout_marginHorizontal="15dp"
                 android:layout_marginVertical="30dp"
+                android:hint="Fecha"
+                android:inputType="date"
                 />
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/add_precio"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/add_stock"
-                app:layout_constraintTop_toBottomOf="@id/add_categoria"
+                app:layout_constraintEnd_toStartOf="@id/add_aforo"
+                app:layout_constraintTop_toBottomOf="@id/add_fecha"
                 android:layout_marginHorizontal="15dp"
                 android:layout_marginVertical="30dp"
                 android:hint="Precio"
                 android:inputType="numberDecimal"
                 />
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/add_stock"
+                android:id="@+id/add_aforo"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toEndOf="@id/add_precio"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_categoria"
+                app:layout_constraintTop_toBottomOf="@id/add_fecha"
                 android:layout_marginHorizontal="15dp"
                 android:layout_marginVertical="30dp"
-                android:hint="Stock"
+                android:hint="Aforo Máx."
                 android:inputType="number"
                 />
             <Button
                 android:id="@+id/guardar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/add_stock"
+                app:layout_constraintTop_toBottomOf="@id/add_aforo"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginVertical="30dp"
@@ -94,4 +96,5 @@
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,32 +13,34 @@
         android:theme="@style/Theme.PracticaFinal"
         tools:targetApi="31">
         <activity
-            android:name=".EditarCarta"
+            android:name=".activities.Autor"
             android:exported="false" />
         <activity
-            android:name=".Add_carta"
+            android:name=".activities.administrador.EditEventos"
             android:exported="false" />
         <activity
-            android:name=".Navegacion"
-            android:exported="false"
-            android:label="@string/title_activity_navegacion" />
-        <activity
-            android:name=".AddCarta"
+            android:name=".activities.administrador.AddEvento"
             android:exported="false" />
         <activity
-            android:name=".InicioAdmin"
+            android:name=".activities.administrador.EditarCarta"
             android:exported="false" />
         <activity
-            android:name=".InicioCliente"
+            android:name=".activities.administrador.Add_carta"
             android:exported="false" />
         <activity
-            android:name=".ComprobadorTipo"
+            android:name=".activities.administrador.InicioAdmin"
             android:exported="false" />
         <activity
-            android:name=".Register"
+            android:name=".activities.cliente.InicioCliente"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.ComprobadorTipo"
+            android:exported="false" />
+        <activity
+            android:name=".activities.Register"
+            android:exported="false" />
+        <activity
+            android:name=".activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

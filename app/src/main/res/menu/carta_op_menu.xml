@@ -9,6 +9,7 @@
     <item
         android:id="@+id/eliminar"
         android:icon="@drawable/borrar"
+        android:actionLayout="@layout/action_borrar"
         android:title="Borrar" />
 
 </menu>

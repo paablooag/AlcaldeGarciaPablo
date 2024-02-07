@@ -9,4 +9,11 @@
     <string name="title_añadir">Añadir</string>
     <string name="title_event">Eventos</string>
     <string name="title_pedidos">Pedidos</string>
+    <string-array name="categorias">
+        <item>Blanco</item>
+        <item>Negro</item>
+        <item>Rojo</item>
+        <item>Azul</item>
+        <item>Verde</item>
+    </string-array>
 </resources>

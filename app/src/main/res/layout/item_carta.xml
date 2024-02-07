@@ -11,7 +11,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <ImageView
             android:id="@+id/photo_item"
             android:layout_width="150dp"
@@ -21,17 +20,17 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginVertical="15dp"
             android:layout_marginHorizontal="15dp"
-            android:src="@drawable/pokemonlogo"
-            android:adjustViewBounds="true" />
-
+            android:src="@drawable/logo"
+            android:adjustViewBounds="true"
+            />
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="165dp"
             app:layout_constraintStart_toEndOf="@id/photo_item"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="10dp">
-
+            android:layout_marginTop="10dp"
+            >
             <TextView
                 android:id="@+id/name_item"
                 android:layout_width="wrap_content"
@@ -39,45 +38,40 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:text="Nombre"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:padding="15dp" />
-
+                android:maxLines="1"
+                android:padding="15dp"
+                />
             <TextView
-
-                android:textStyle="bold"
                 android:id="@+id/categoria_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/name_item"
                 android:text="Categoria"
-                android:textSize="16sp"
-                android:padding="15dp" />
-
+                android:maxLines="2"
+                android:padding="15dp"
+                />
             <TextView
-
-                android:textStyle="bold"
                 android:id="@+id/precio_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/categoria_item"
                 android:text="Precio"
-                android:textSize="16sp"
-                android:padding="15dp" />
-
+                android:maxLines="1"
+                android:padding="15dp"
+                />
             <TextView
-
-                android:textStyle="bold"
                 android:id="@+id/stock_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/precio_item"
                 android:text="Stock"
-                android:textSize="16sp"
-                android:padding="15dp" />
+                android:maxLines="1"
+                android:padding="15dp"
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+    
 </androidx.cardview.widget.CardView>
