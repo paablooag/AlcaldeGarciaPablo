@@ -21,9 +21,7 @@ import kotlinx.coroutines.tasks.await
 
 
 class Utilidades {
-
     companion object{
-
         fun crearUsuario(email:String, password:String, nombre:String){
             var dtb_ref= FirebaseDatabase.getInstance().reference
             val usuario=Usuario(nombre, email, password)
