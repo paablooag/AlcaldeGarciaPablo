@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "419733659478",
+    "firebase_url": "https://practicafinal-9f1ef-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "practicafinal-9f1ef",
+    "storage_bucket": "practicafinal-9f1ef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:419733659478:android:ddc7a759de5a26f4c780f7",
+        "android_client_info": {
+          "package_name": "com.example.practicafinal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXryzMXSJ_qm9nUZx9yJXuku5wt4eXgQY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
