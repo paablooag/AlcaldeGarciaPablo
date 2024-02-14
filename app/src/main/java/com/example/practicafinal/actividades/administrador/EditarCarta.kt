@@ -1,4 +1,4 @@
-package com.example.practicafinal.actividades.actividades_admin
+package com.example.practicafinal.actividades.administrador
 
 import android.content.Intent
 import android.net.Uri
@@ -108,7 +108,7 @@ class EditarCarta : AppCompatActivity(), CoroutineScope {
 
                 Toast.makeText(
                     applicationContext, "Faltan datos en el " +
-                            "formulario", Toast.LENGTH_SHORT
+                            "formularion", Toast.LENGTH_SHORT
                 ).show()
 
             } else if (Utilidades.existeCarta(
@@ -116,7 +116,7 @@ class EditarCarta : AppCompatActivity(), CoroutineScope {
                     nombre.text.toString().trim()
                 ) && !nombre.text.toString().trim().equals(beforeName)
             ) {
-                Toast.makeText(applicationContext, "Carta existente", Toast.LENGTH_SHORT)
+                Toast.makeText(applicationContext, "Esa Carta ya existe", Toast.LENGTH_SHORT)
                     .show()
             } else {
 
@@ -131,7 +131,7 @@ class EditarCarta : AppCompatActivity(), CoroutineScope {
                         url_photo_firebase = carta.imagen!!
                     } else {
                         url_photo_firebase =
-                            Utilidades.guardarFoto(carta.id!!, url_photo!!)
+                            Utilidades.guardarFotoCarta(carta.id!!, url_photo!!)
                     }
 
                     var carta = Carta(
@@ -149,7 +149,7 @@ class EditarCarta : AppCompatActivity(), CoroutineScope {
                     Utilidades.toastCourutine(
                         this_activity,
                         applicationContext,
-                        "Carta modificado"
+                        "Carta modificado con exito"
                     )
                     val activity = Intent(applicationContext, InicioAdmin::class.java)
                     startActivity(activity)

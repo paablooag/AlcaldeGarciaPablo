@@ -4,8 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.net.Uri
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
@@ -21,10 +19,12 @@ import kotlinx.coroutines.tasks.await
 
 
 class Utilidades {
+
     companion object{
-        fun crearUsuario(email:String, password:String, nombre:String){
+
+        fun crearUsuario(email:String, password:String, nombre:String,img:String){
             var dtb_ref= FirebaseDatabase.getInstance().reference
-            val usuario=Usuario(nombre, email, password)
+            val usuario=Usuario(FirebaseAuth.getInstance().currentUser!!.uid,nombre, email, password,"cliente",img)
             dtb_ref.child("Usuarios").child(FirebaseAuth.getInstance().currentUser!!.uid).setValue(usuario)
         }
 
@@ -78,11 +78,15 @@ class Utilidades {
             dtb_ref.child("Cartas").child(carta.id).setValue(carta)
         }
 
+        fun crearPedido(dtb_ref:DatabaseReference,pedido: Pedido){
+            dtb_ref.child("Pedidos").child(pedido.id).setValue(pedido)
+        }
+
         fun crearEvento(dtb_ref:DatabaseReference,evento: Evento){
             dtb_ref.child("Eventos").child(evento.id).setValue(evento)
         }
 
-        suspend fun guardarFoto(id: String, image: Uri): String {
+        suspend fun guardarFotoCarta(id: String, image: Uri): String {
             lateinit var url_photo_firebase: Uri
             var sto_ref: StorageReference = FirebaseStorage.getInstance().reference
             url_photo_firebase = sto_ref.child("Cartas").child("photos").child(id)
@@ -100,13 +104,22 @@ class Utilidades {
             return url_photo_firebase.toString()
         }
 
+        suspend fun guardarFotoUsuario(image: Uri): String {
+            lateinit var url_photo_firebase: Uri
+            var sto_ref: StorageReference = FirebaseStorage.getInstance().reference
+            url_photo_firebase = sto_ref.child("Usuarios").child("photos").child(FirebaseAuth.getInstance().currentUser!!.uid)
+                .putFile(image).await().storage.downloadUrl.await()
+
+            return url_photo_firebase.toString()
+        }
+
        suspend fun obtenerUsuario(dtb_ref: DatabaseReference):Usuario{
-            var usuario:Usuario?=null
+           var usuario:Usuario?=null
            try {
                val dataSnapshot = dtb_ref.child("Usuarios").child(FirebaseAuth.getInstance().currentUser!!.uid).get().await()
                usuario = dataSnapshot.getValue(Usuario::class.java)
            } catch (e: Exception) {
-               // Manejar excepción
+
            }
             return usuario!!
         }

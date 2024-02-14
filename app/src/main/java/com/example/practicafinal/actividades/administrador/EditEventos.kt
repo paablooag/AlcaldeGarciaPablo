@@ -1,4 +1,4 @@
-package com.example.practicafinal.actividades.actividades_admin
+package com.example.practicafinal.actividades.administrador
 
 import android.content.Intent
 import android.net.Uri
@@ -60,6 +60,10 @@ class EditEventos : AppCompatActivity() , CoroutineScope {
 
         photo = findViewById(R.id.add_image)
 
+        fecha.setOnClickListener {
+            showDatePickerDialog()
+        }
+
         Glide.with(applicationContext)
             .load(evento.imagen)
             .apply(Utilidades.glideOptions(applicationContext))
@@ -86,7 +90,7 @@ class EditEventos : AppCompatActivity() , CoroutineScope {
                     fecha.text.toString().trim()
                 ) && !nombre.text.toString().trim().equals(beforeName)
             ) {
-                Toast.makeText(applicationContext, "Carta existente", Toast.LENGTH_SHORT)
+                Toast.makeText(applicationContext, "Esa Carta ya existe", Toast.LENGTH_SHORT)
                     .show()
             } else {
 
@@ -101,7 +105,7 @@ class EditEventos : AppCompatActivity() , CoroutineScope {
                         url_photo_firebase = evento.imagen!!
                     } else {
                         url_photo_firebase =
-                            Utilidades.guardarFoto(evento.id!!, url_photo!!)
+                            Utilidades.guardarFotoEvento(evento.id!!, url_photo!!)
                     }
 
                     var evento = Evento(
@@ -109,6 +113,7 @@ class EditEventos : AppCompatActivity() , CoroutineScope {
                         nombre.text.toString().trim().capitalize(),
                         fecha.text.toString().trim(),
                         precio.text.toString().trim().capitalize(),
+                        "0",
                         aforo.text.toString().trim(),
                         url_photo_firebase,
 
@@ -119,7 +124,7 @@ class EditEventos : AppCompatActivity() , CoroutineScope {
                     Utilidades.toastCourutine(
                         this_activity,
                         applicationContext,
-                        "Evento modificado"
+                        "Evento modificado con exito"
                     )
                     val activity = Intent(applicationContext, InicioAdmin::class.java)
                     startActivity(activity)
@@ -131,6 +136,15 @@ class EditEventos : AppCompatActivity() , CoroutineScope {
 
             }
         }
+    }
+
+    private fun showDatePickerDialog(){
+        val datePicker = DatePickerFragment { day, month, year -> onDateSelected(day, month, year) }
+        datePicker.show(supportFragmentManager, "datePicker")
+    }
+
+    private fun onDateSelected(day: Int, month: Int, year: Int) {
+        fecha.setText("$day del $month del año $year")
     }
 
     override fun onDestroy() {

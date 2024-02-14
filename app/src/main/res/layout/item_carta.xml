@@ -28,12 +28,12 @@
             android:id="@+id/name_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/photo_item"
-            android:text="Nombre"
             android:maxLines="1"
             android:padding="15dp"
+            android:text="Nombre"
             android:textStyle="bold"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/photo_item" />
 
         <TextView
             android:id="@+id/categoria_item"
@@ -68,5 +68,24 @@
             app:layout_constraintTop_toTopOf="@id/precio_item" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/añadir_carrito"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:backgroundTint="@color/cafe"
+        android:layout_margin="15dp"
+        android:visibility="gone"
+        >
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:foregroundGravity="center"
+            android:padding="5dp"
+            android:src="@drawable/carrito"
+            android:adjustViewBounds="true"
+            />
+    </androidx.cardview.widget.CardView>
 
 </androidx.cardview.widget.CardView>

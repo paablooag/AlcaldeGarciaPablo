@@ -3,6 +3,7 @@ package com.example.practicafinal
 import android.content.Context
 import android.content.Intent
 import android.preference.PreferenceManager
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,9 +14,11 @@ import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.practicafinal.actividades.actividades_admin.EditarCarta
+import com.example.practicafinal.actividades.administrador.EditarCarta
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 
@@ -30,6 +33,7 @@ class CartaAdaptador(private val lista:MutableList<Carta>): RecyclerView.Adapter
         val precio=item.findViewById<TextView>(R.id.precio_item)
         val categoria=item.findViewById<TextView>(R.id.categoria_item)
         val stock=item.findViewById<TextView>(R.id.stock_item)
+        val añadir_carrito=item.findViewById<CardView>(R.id.añadir_carrito)
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartaViewHolder {
         val item_view =
@@ -42,7 +46,7 @@ class CartaAdaptador(private val lista:MutableList<Carta>): RecyclerView.Adapter
         val actual_item=filter_list[position]
         holder.nombre.text=actual_item.nombre
         holder.categoria.text="Categoria: "+actual_item.categoria
-        holder.precio.text="Precio: "+actual_item.precio
+        holder.precio.text="Precio: "+actual_item.precio+" €"
         holder.stock.text="Stock: "+actual_item.stock
 
         val URL:String? = when (actual_item.imagen){
@@ -54,10 +58,29 @@ class CartaAdaptador(private val lista:MutableList<Carta>): RecyclerView.Adapter
         var tipo = sharedPreferences.getString("tipo", "cliente")
 
         if (tipo.equals("cliente",true)){
+
+            holder.añadir_carrito.visibility = View.VISIBLE
+
             holder.itemView.setOnLongClickListener {
                 false
             }
-        }else {
+
+            holder.añadir_carrito.setOnClickListener {
+                val db_ref = FirebaseDatabase.getInstance().getReference()
+                val user = FirebaseAuth.getInstance().currentUser?.uid
+                val id = db_ref.push().key
+                actual_item.stock=(actual_item.stock.toInt()-1).toString()
+                val androidId= Settings.Secure.getString(
+                    context.contentResolver,
+                    Settings.Secure.ANDROID_ID
+                )
+                db_ref.child("Cartas").child(actual_item.id).setValue(actual_item)
+                val pedido=Pedido(id!!, user!!, actual_item.id, "pendiente", actual_item.precio, actual_item.nombre,Estado_not.creado,androidId)
+                Utilidades.crearPedido(db_ref, pedido)
+            }
+
+        }else{
+
             holder.itemView.setOnLongClickListener {
                 val popup = PopupMenu(context, holder.itemView)
 

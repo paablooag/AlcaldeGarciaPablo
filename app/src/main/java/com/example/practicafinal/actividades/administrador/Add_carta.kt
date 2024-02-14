@@ -1,9 +1,8 @@
-package com.example.practicafinal.actividades.actividades_admin
+package com.example.practicafinal.actividades.administrador
 
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -26,7 +25,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-class Anadir_carta : AppCompatActivity(), CoroutineScope {
+class Add_carta : AppCompatActivity(), CoroutineScope {
 
     private lateinit var nombreLayout: TextInputEditText
     private lateinit var categoriaLayout: Spinner
@@ -85,21 +84,21 @@ class Anadir_carta : AppCompatActivity(), CoroutineScope {
         add.setOnClickListener {
 
             if (nombreLayout.text.toString().trim().isEmpty()||categoria==null || precioLayout.text.toString().trim().isEmpty() || stockLayout.text.toString().trim().isEmpty()){
-                Toast.makeText(applicationContext, "Rellene todo", Toast.LENGTH_SHORT)
+                Toast.makeText(applicationContext, "Faltan campos por rellenar", Toast.LENGTH_SHORT)
                     .show()
             }else if(url_photo==null){
                 Toast.makeText(
-                    applicationContext, "Seleccione la imagen", Toast.LENGTH_SHORT
+                    applicationContext, "Falta seleccionar la foto", Toast.LENGTH_SHORT
                 ).show()
             }else if(Utilidades.existeCarta(carta_list, nombreLayout.text.toString().trim())){
-                Toast.makeText(applicationContext, "Carta existente", Toast.LENGTH_SHORT)
+                Toast.makeText(applicationContext, "Esa carta ya existe", Toast.LENGTH_SHORT)
                     .show()
             }else{
                 var generated_id:String?=db_ref.child("Cartas").push().key
 
 
                 launch {
-                    val url_photo_firebase= Utilidades.guardarFoto(generated_id!!, url_photo!!)
+                    val url_photo_firebase= Utilidades.guardarFotoCarta(generated_id!!, url_photo!!)
 
                     var carta= Carta(
                         generated_id,
@@ -115,7 +114,7 @@ class Anadir_carta : AppCompatActivity(), CoroutineScope {
                     Utilidades.toastCourutine(
                         this_activity,
                         applicationContext,
-                        "Carta creada"
+                        "Carta creada con exito"
                     )
 
                     val newIntent= Intent(applicationContext, InicioAdmin::class.java)
@@ -142,10 +141,5 @@ class Anadir_carta : AppCompatActivity(), CoroutineScope {
             url_photo = it
             photo.setImageURI(it)
         }
-    }
-
-    fun cancelar(view: View) {
-        val newintent = Intent(this, InicioAdmin::class.java)
-        startActivity(newintent)
     }
 }

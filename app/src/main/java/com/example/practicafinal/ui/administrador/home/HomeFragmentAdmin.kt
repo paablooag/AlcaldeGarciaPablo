@@ -9,7 +9,7 @@ import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.practicafinal.actividades.actividades_admin.Anadir_carta
+import com.example.practicafinal.actividades.administrador.Add_carta
 import com.example.practicafinal.Carta
 import com.example.practicafinal.CartaAdaptador
 import com.example.practicafinal.actividades.MainActivity
@@ -93,10 +93,11 @@ class HomeFragmentAdmin : Fragment() {
         }
 
         _binding!!.addCarta.setOnClickListener {
-            var newIntent= Intent(context, Anadir_carta::class.java)
-            startActivity(newIntent)
-        }
 
+            var newIntent= Intent(context, Add_carta::class.java)
+            startActivity(newIntent)
+
+        }
 
         return _binding!!.root
     }

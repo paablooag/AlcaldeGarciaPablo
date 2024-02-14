@@ -40,9 +40,24 @@ class HomeFragmentCliente : Fragment() {
         _binding = FragmentHomeClienteBinding.inflate(inflater, container, false)
         db_ref= FirebaseDatabase.getInstance().reference
         var user = FirebaseAuth.getInstance()
+        var search= _binding!!.search
         lista= mutableListOf<Carta>()
 
         cargarCartas()
+
+        search.setOnQueryTextListener(object :
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                adaptador.filter.filter((newText))
+                return true
+            }
+
+        })
 
         adaptador = CartaAdaptador(lista)
         recycler = _binding!!.recyclerView
@@ -156,7 +171,7 @@ class HomeFragmentCliente : Fragment() {
                         val pojo_carta = hijo?.getValue(Carta::class.java)
 
                         if (pojo_carta!!.stock.toInt() > 0) {
-                            lista.add(pojo_carta!!)
+                            lista.add(pojo_carta)
                         }
                     }
                     if (boolean){

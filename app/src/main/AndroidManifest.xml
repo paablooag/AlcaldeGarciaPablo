@@ -16,22 +16,22 @@
             android:name=".actividades.Autor"
             android:exported="false" />
         <activity
-            android:name=".actividades.actividades_admin.EditEventos"
+            android:name=".actividades.administrador.EditEventos"
             android:exported="false" />
         <activity
-            android:name=".actividades.actividades_admin.AddEvento"
+            android:name=".actividades.administrador.AddEvento"
             android:exported="false" />
         <activity
-            android:name=".actividades.actividades_admin.EditarCarta"
+            android:name=".actividades.administrador.EditarCarta"
             android:exported="false" />
         <activity
-            android:name=".actividades.actividades_admin.Anadir_carta"
+            android:name=".actividades.administrador.Add_carta"
             android:exported="false" />
         <activity
-            android:name=".actividades.actividades_admin.InicioAdmin"
+            android:name=".actividades.administrador.InicioAdmin"
             android:exported="false" />
         <activity
-            android:name=".actividades.actividades_cliente.InicioCliente"
+            android:name=".actividades.cliente.InicioCliente"
             android:exported="false" />
         <activity
             android:name=".actividades.ComprobadorTipo"

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.practicafinal.Evento
 import com.example.practicafinal.EventoAdaptador
+import com.example.practicafinal.Inscripcion
 import com.example.practicafinal.R
 import com.example.practicafinal.actividades.Autor
 import com.example.practicafinal.actividades.MainActivity
@@ -26,6 +27,7 @@ class EventosFragmentCliente : Fragment() {
     private var _binding: FragmentEventosClienteBinding? = null
     private lateinit var recycler: RecyclerView
     private lateinit var lista: MutableList<Evento>
+    private lateinit var inscripcioines: MutableList<Inscripcion>
     private lateinit var adaptador: EventoAdaptador
     private var applicationcontext = this.context
     override fun onCreateView(
@@ -39,6 +41,7 @@ class EventosFragmentCliente : Fragment() {
         var user=FirebaseAuth.getInstance()
         var db_ref= FirebaseDatabase.getInstance().reference
         lista= mutableListOf<Evento>()
+        inscripcioines = mutableListOf()
 
         db_ref.child("Eventos")
             .addValueEventListener(object : ValueEventListener {
@@ -47,7 +50,9 @@ class EventosFragmentCliente : Fragment() {
                     snapshot.children.forEach { hijo: DataSnapshot?
                         ->
                         val pojo_evento = hijo?.getValue(Evento::class.java)
-                        lista.add(pojo_evento!!)
+                        if (pojo_evento!!.aforo_maximo.toInt()-pojo_evento!!.aforo.toInt()>0) {
+                            lista.add(pojo_evento!!)
+                        }
                     }
                     recycler.adapter?.notifyDataSetChanged()
                 }
@@ -58,7 +63,27 @@ class EventosFragmentCliente : Fragment() {
 
             })
 
-        adaptador = EventoAdaptador(lista)
+        db_ref.child("Inscripciones")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    inscripcioines.clear()
+                    snapshot.children.forEach { hijo: DataSnapshot?
+                        ->
+                        val pojo_inscripcion = hijo?.getValue(Inscripcion::class.java)
+                        if (pojo_inscripcion!!.id_ususario.equals(user.currentUser!!.uid)) {
+                            inscripcioines.add(pojo_inscripcion!!)
+                        }
+                    }
+                    recycler.adapter?.notifyDataSetChanged()
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    println(error.message)
+                }
+
+            })
+
+        adaptador = EventoAdaptador(lista,inscripcioines)
         recycler = _binding!!.recyclerViewEventos
         recycler.adapter = adaptador
         recycler.layoutManager = LinearLayoutManager(applicationcontext)

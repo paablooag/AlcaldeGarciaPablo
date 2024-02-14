@@ -1,9 +1,8 @@
-package com.example.practicafinal.actividades.actividades_admin
+package com.example.practicafinal.actividades.administrador
 
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
@@ -12,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.practicafinal.Evento
 import com.example.practicafinal.R
 import com.example.practicafinal.Utilidades
-import com.example.practicafinal.ui.administrador.eventos.EventosFragmentAdmin
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -52,6 +50,10 @@ class AddEvento : AppCompatActivity(), CoroutineScope {
 
         add=findViewById(R.id.guardar)
 
+        fechaLayout.setOnClickListener {
+            showDatePickerDialog()
+        }
+
         db_ref= FirebaseDatabase.getInstance().reference
         st_ref = FirebaseStorage.getInstance().reference
 
@@ -61,14 +63,14 @@ class AddEvento : AppCompatActivity(), CoroutineScope {
         add.setOnClickListener {
 
             if (nombreLayout.text.toString().trim().isEmpty()||fechaLayout.text.toString().trim().isEmpty() || precioLayout.text.toString().trim().isEmpty() || aforoLayout.text.toString().trim().isEmpty()){
-                Toast.makeText(applicationContext, "Rellene todo", Toast.LENGTH_SHORT)
+                Toast.makeText(applicationContext, "Faltan campos por rellenar", Toast.LENGTH_SHORT)
                     .show()
             }else if(url_photo==null){
                 Toast.makeText(
-                    applicationContext, "Seleccione la imagen", Toast.LENGTH_SHORT
+                    applicationContext, "Falta seleccionar la foto", Toast.LENGTH_SHORT
                 ).show()
             }else if(Utilidades.existeEvento(evento_list, nombreLayout.text.toString().trim(),fechaLayout.text.toString().trim())){
-                Toast.makeText(applicationContext, "Evento existente", Toast.LENGTH_SHORT)
+                Toast.makeText(applicationContext, "Ese evento ya existe", Toast.LENGTH_SHORT)
                     .show()
             }else{
                 var generated_id:String?=db_ref.child("Eventos").push().key
@@ -83,6 +85,7 @@ class AddEvento : AppCompatActivity(), CoroutineScope {
                         nombreLayout.text.toString().trim().capitalize(),
                         fechaLayout.text.toString().trim().capitalize(),
                         precioLayout.text.toString().trim().capitalize(),
+                        "0",
                         aforoLayout.text.toString().trim().capitalize(),
                         url_photo_firebase
                     )
@@ -107,6 +110,14 @@ class AddEvento : AppCompatActivity(), CoroutineScope {
         }
     }
 
+    private fun showDatePickerDialog(){
+        val datePicker = DatePickerFragment { day, month, year -> onDateSelected(day, month, year) }
+        datePicker.show(supportFragmentManager, "datePicker")
+    }
+
+    private fun onDateSelected(day: Int, month: Int, year: Int) {
+        fechaLayout.setText("$day del $month del año $year")
+    }
     override fun onDestroy() {
         job.cancel()
         super.onDestroy()
@@ -119,10 +130,5 @@ class AddEvento : AppCompatActivity(), CoroutineScope {
             url_photo = it
             photo.setImageURI(it)
         }
-    }
-
-    fun cancelar(view: View) {
-        val newIntent= Intent(applicationContext, InicioAdmin::class.java)
-        startActivity(newIntent)
     }
 }

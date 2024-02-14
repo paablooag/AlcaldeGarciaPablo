@@ -9,6 +9,7 @@ data class Evento (
         val nombre: String="",
         val fecha: String="",
         val precio: String="",
-        val aforo_maximo: String="",
+        var aforo:String="0",
+        val aforo_maximo: String="0",
         val imagen: String=""
     ):Parcelable

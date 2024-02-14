@@ -9,9 +9,10 @@ import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.practicafinal.actividades.actividades_admin.AddEvento
+import com.example.practicafinal.actividades.administrador.AddEvento
 import com.example.practicafinal.Evento
 import com.example.practicafinal.EventoAdaptador
+import com.example.practicafinal.Inscripcion
 import com.example.practicafinal.R
 import com.example.practicafinal.actividades.Autor
 import com.example.practicafinal.actividades.MainActivity
@@ -27,6 +28,7 @@ class EventosFragmentAdmin : Fragment() {
     private var _binding: FragmentEventosAdminBinding? = null
     private lateinit var recycler: RecyclerView
     private lateinit var lista: MutableList<Evento>
+    private lateinit var inscripcioines: MutableList<Inscripcion>
     private lateinit var adaptador: EventoAdaptador
     private var applicationcontext = this.context
     override fun onCreateView(
@@ -40,6 +42,7 @@ class EventosFragmentAdmin : Fragment() {
         var user=FirebaseAuth.getInstance()
         var db_ref= FirebaseDatabase.getInstance().reference
         lista= mutableListOf<Evento>()
+        inscripcioines = mutableListOf()
 
         db_ref.child("Eventos")
             .addValueEventListener(object : ValueEventListener {
@@ -59,7 +62,25 @@ class EventosFragmentAdmin : Fragment() {
 
             })
 
-        adaptador = EventoAdaptador(lista)
+        db_ref.child("Inscripciones")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    inscripcioines.clear()
+                    snapshot.children.forEach { hijo: DataSnapshot?
+                        ->
+                        val pojo_inscripcion = hijo?.getValue(Inscripcion::class.java)
+                        inscripcioines.add(pojo_inscripcion!!)
+                    }
+                    recycler.adapter?.notifyDataSetChanged()
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    println(error.message)
+                }
+
+            })
+
+        adaptador = EventoAdaptador(lista,inscripcioines)
         recycler = _binding!!.recyclerViewEventos
         recycler.adapter = adaptador
         recycler.layoutManager = LinearLayoutManager(applicationcontext)
@@ -67,7 +88,9 @@ class EventosFragmentAdmin : Fragment() {
 
         _binding!!.settings.setOnClickListener {
             val popupMenu = PopupMenu(context, it)
+
             popupMenu.inflate(R.menu.popup_menu)
+
             popupMenu.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.log_out -> {
@@ -89,12 +112,17 @@ class EventosFragmentAdmin : Fragment() {
             }
             popupMenu.show()
         }
+
         _binding!!.addCarta.setOnClickListener {
+
             var newIntent= Intent(context, AddEvento::class.java)
             startActivity(newIntent)
+
         }
+
         return root
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
