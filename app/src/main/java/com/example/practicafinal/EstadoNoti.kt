@@ -1,6 +1,6 @@
 package com.example.practicafinal
 
-class Estado_not {
+class EstadoNoti {
 
     companion object{
         const val notificado=0

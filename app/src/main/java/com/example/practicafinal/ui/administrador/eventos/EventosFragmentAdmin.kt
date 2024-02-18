@@ -9,7 +9,7 @@ import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.practicafinal.actividades.administrador.AddEvento
+import com.example.practicafinal.actividades.administrador.AnadirEvento
 import com.example.practicafinal.Evento
 import com.example.practicafinal.EventoAdaptador
 import com.example.practicafinal.Inscripcion
@@ -94,7 +94,6 @@ class EventosFragmentAdmin : Fragment() {
             popupMenu.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.log_out -> {
-                        // Handle item1 click
                         user.signOut()
                         var newIntent= Intent(context, MainActivity::class.java)
                         startActivity(newIntent)
@@ -115,7 +114,7 @@ class EventosFragmentAdmin : Fragment() {
 
         _binding!!.addCarta.setOnClickListener {
 
-            var newIntent= Intent(context, AddEvento::class.java)
+            var newIntent= Intent(context, AnadirEvento::class.java)
             startActivity(newIntent)
 
         }

@@ -29,9 +29,6 @@ class HomeFragmentCliente : Fragment() {
     private lateinit var adaptador: CartaAdaptador
     private var applicationcontext = this.context
     private lateinit var db_ref: DatabaseReference
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

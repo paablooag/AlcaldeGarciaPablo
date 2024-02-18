@@ -22,87 +22,87 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 
-class CartaAdaptador(private val lista:MutableList<Carta>): RecyclerView.Adapter<CartaAdaptador.CartaViewHolder>(),
+class CartaAdaptador(private val listaCartas:MutableList<Carta>): RecyclerView.Adapter<CartaAdaptador.CartaViewHolder>(),
     Filterable {
 
-    private lateinit var context: Context
-    private var filter_list=lista
-    class CartaViewHolder(item: View) : RecyclerView.ViewHolder(item) {
-        val foto=item.findViewById<ImageView>(R.id.photo_item)
-        val nombre=item.findViewById<TextView>(R.id.name_item)
-        val precio=item.findViewById<TextView>(R.id.precio_item)
-        val categoria=item.findViewById<TextView>(R.id.categoria_item)
-        val stock=item.findViewById<TextView>(R.id.stock_item)
-        val añadir_carrito=item.findViewById<CardView>(R.id.añadir_carrito)
+    private lateinit var contexto: Context
+    private var listaFiltrada=listaCartas
+    class CartaViewHolder(itemVista: View) : RecyclerView.ViewHolder(itemVista) {
+        val fotoCarta=itemVista.findViewById<ImageView>(R.id.photo_item)
+        val nombreCarta=itemVista.findViewById<TextView>(R.id.name_item)
+        val precioCarta=itemVista.findViewById<TextView>(R.id.precio_item)
+        val categoriaCarta=itemVista.findViewById<TextView>(R.id.categoria_item)
+        val stockCarta=itemVista.findViewById<TextView>(R.id.stock_item)
+        val añadirCarrito=itemVista.findViewById<CardView>(R.id.añadir_carrito)
     }
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartaViewHolder {
-        val item_view =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_carta, parent, false)
-        context = parent.context
-        return CartaViewHolder(item_view)
+    override fun onCreateViewHolder(grupoPadre: ViewGroup, tipoVista: Int): CartaViewHolder {
+        val vistaItem =
+            LayoutInflater.from(grupoPadre.context).inflate(R.layout.item_carta, grupoPadre, false)
+        contexto = grupoPadre.context
+        return CartaViewHolder(vistaItem)
     }
 
-    override fun onBindViewHolder(holder: CartaViewHolder, position: Int) {
-        val actual_item=filter_list[position]
-        holder.nombre.text=actual_item.nombre
-        holder.categoria.text="Categoria: "+actual_item.categoria
-        holder.precio.text="Precio: "+actual_item.precio+" €"
-        holder.stock.text="Stock: "+actual_item.stock
+    override fun onBindViewHolder(portadorVista: CartaViewHolder, posicion: Int) {
+        val cartaActual=listaFiltrada[posicion]
+        portadorVista.nombreCarta.text=cartaActual.nombre
+        portadorVista.categoriaCarta.text="Categoria: "+cartaActual.categoria
+        portadorVista.precioCarta.text="Precio: "+cartaActual.precio+" €"
+        portadorVista.stockCarta.text="Stock: "+cartaActual.stock
 
-        val URL:String? = when (actual_item.imagen){
+        val URL:String? = when (cartaActual.imagen){
             ""->null
-            else->actual_item.imagen
+            else->cartaActual.imagen
         }
 
-        var sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-        var tipo = sharedPreferences.getString("tipo", "cliente")
+        var preferenciasCompartidas = PreferenceManager.getDefaultSharedPreferences(contexto)
+        var tipoUsuario = preferenciasCompartidas.getString("tipo", "cliente")
 
-        if (tipo.equals("cliente",true)){
+        if (tipoUsuario.equals("cliente",true)){
 
-            holder.añadir_carrito.visibility = View.VISIBLE
+            portadorVista.añadirCarrito.visibility = View.VISIBLE
 
-            holder.itemView.setOnLongClickListener {
+            portadorVista.itemView.setOnLongClickListener {
                 false
             }
 
-            holder.añadir_carrito.setOnClickListener {
-                val db_ref = FirebaseDatabase.getInstance().getReference()
-                val user = FirebaseAuth.getInstance().currentUser?.uid
-                val id = db_ref.push().key
-                actual_item.stock=(actual_item.stock.toInt()-1).toString()
-                val androidId= Settings.Secure.getString(
-                    context.contentResolver,
+            portadorVista.añadirCarrito.setOnClickListener {
+                val referenciaBaseDatos = FirebaseDatabase.getInstance().getReference()
+                val idUsuario = FirebaseAuth.getInstance().currentUser?.uid
+                val id = referenciaBaseDatos.push().key
+                cartaActual.stock=(cartaActual.stock.toInt()-1).toString()
+                val idAndroid= Settings.Secure.getString(
+                    contexto.contentResolver,
                     Settings.Secure.ANDROID_ID
                 )
-                db_ref.child("Cartas").child(actual_item.id).setValue(actual_item)
-                val pedido=Pedido(id!!, user!!, actual_item.id, "pendiente", actual_item.precio, actual_item.nombre,Estado_not.creado,androidId)
-                Utilidades.crearPedido(db_ref, pedido)
+                referenciaBaseDatos.child("Cartas").child(cartaActual.id).setValue(cartaActual)
+                val pedido=Pedido(id!!, idUsuario!!, cartaActual.id, "pendiente", cartaActual.precio, cartaActual.nombre,EstadoNoti.creado,idAndroid)
+                Utilidades.crearPedido(referenciaBaseDatos, pedido)
             }
 
         }else{
 
-            holder.itemView.setOnLongClickListener {
-                val popup = PopupMenu(context, holder.itemView)
+            portadorVista.itemView.setOnLongClickListener {
+                val menuPopup = PopupMenu(contexto, portadorVista.itemView)
 
-                popup.inflate(R.menu.carta_op_menu)
+                menuPopup.inflate(R.menu.carta_op_menu)
 
-                popup.setOnMenuItemClickListener {
+                menuPopup.setOnMenuItemClickListener {
                     when (it.itemId) {
                         R.id.editar -> {
-                            var newIntent = Intent(context, EditarCarta::class.java)
-                            newIntent.putExtra("carta", actual_item)
-                            context.startActivity(newIntent)
+                            var nuevoIntento = Intent(contexto, EditarCarta::class.java)
+                            nuevoIntento.putExtra("carta", cartaActual)
+                            contexto.startActivity(nuevoIntento)
                             true
                         }
 
                         R.id.eliminar -> {
-                            val db_ref = FirebaseDatabase.getInstance().getReference()
-                            val sto_ref = FirebaseStorage.getInstance().getReference()
+                            val referenciaBaseDatos = FirebaseDatabase.getInstance().getReference()
+                            val referenciaAlmacenamiento = FirebaseStorage.getInstance().getReference()
 
-                            filter_list.remove(actual_item)
-                            sto_ref.child("Cartas").child("photos").child(actual_item.id!!).delete()
-                            db_ref.child("Cartas").child(actual_item.id!!).removeValue()
-                            Toast.makeText(context, "Carta borrada con exito", Toast.LENGTH_SHORT)
+                            listaFiltrada.remove(cartaActual)
+                            referenciaAlmacenamiento.child("Cartas").child("photos").child(cartaActual.id!!).delete()
+                            referenciaBaseDatos.child("Cartas").child(cartaActual.id!!).removeValue()
+                            Toast.makeText(contexto, "Carta borrada con exito", Toast.LENGTH_SHORT)
                                 .show()
                             true
                         }
@@ -111,47 +111,46 @@ class CartaAdaptador(private val lista:MutableList<Carta>): RecyclerView.Adapter
                     }
                 }
                 try {
-                    val fieldMPopup = PopupMenu::class.java.getDeclaredField("mPopup")
-                    fieldMPopup.isAccessible = true
-                    val mPopup = fieldMPopup.get(popup)
+                    val campoMPopup = PopupMenu::class.java.getDeclaredField("mPopup")
+                    campoMPopup.isAccessible = true
+                    val mPopup = campoMPopup.get(menuPopup)
                     mPopup.javaClass
                         .getDeclaredMethod("setForceShowIcon", Boolean::class.java)
                         .invoke(mPopup, true)
                 } catch (e: Exception) {
-                    Log.e("Main", "Error showing menu icons.", e)
+                    Log.e("Main", "Error mostrando iconos del menu.", e)
                 } finally {
-                    popup.show()
+                    menuPopup.show()
                 }
-//            popup.show()
                 true
             }
         }
 
-        Glide.with(context).load(URL).apply(Utilidades.glideOptions(context)).transition(Utilidades.transition).into(holder.foto)
+        Glide.with(contexto).load(URL).apply(Utilidades.glideOptions(contexto)).transition(Utilidades.transition).into(portadorVista.fotoCarta)
     }
 
-    override fun getItemCount(): Int = filter_list.size
+    override fun getItemCount(): Int = listaFiltrada.size
 
     override fun getFilter(): Filter {
         return  object : Filter(){
             override fun performFiltering(p0: CharSequence?): FilterResults {
-                val search = p0.toString().lowercase()
+                val busqueda = p0.toString().lowercase()
 
-                if (search.isEmpty()){
-                    filter_list = lista
+                if (busqueda.isEmpty()){
+                    listaFiltrada = listaCartas
                 }else {
-                    filter_list = (lista.filter {
-                        if (it.nombre.toString().lowercase().contains(search)){
-                            it.nombre.toString().lowercase().contains(search)
+                    listaFiltrada = (listaCartas.filter {
+                        if (it.nombre.toString().lowercase().contains(busqueda)){
+                            it.nombre.toString().lowercase().contains(busqueda)
                         }else{
-                            it.categoria.toString().lowercase().contains(search)
+                            it.categoria.toString().lowercase().contains(busqueda)
                         }
                     }) as MutableList<Carta>
                 }
 
-                val filterResults = FilterResults()
-                filterResults.values = filter_list
-                return filterResults
+                val resultadosFiltro = FilterResults()
+                resultadosFiltro.values = listaFiltrada
+                return resultadosFiltro
             }
 
             override fun publishResults(p0: CharSequence?, p1: FilterResults?) {

@@ -22,7 +22,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-class AddEvento : AppCompatActivity(), CoroutineScope {
+class AnadirEvento : AppCompatActivity(), CoroutineScope {
 
     private lateinit var nombreLayout: TextInputEditText
     private lateinit var fechaLayout: TextInputEditText
@@ -67,7 +67,7 @@ class AddEvento : AppCompatActivity(), CoroutineScope {
                     .show()
             }else if(url_photo==null){
                 Toast.makeText(
-                    applicationContext, "Falta seleccionar la foto", Toast.LENGTH_SHORT
+                    applicationContext, "Error: seleccionar foto", Toast.LENGTH_SHORT
                 ).show()
             }else if(Utilidades.existeEvento(evento_list, nombreLayout.text.toString().trim(),fechaLayout.text.toString().trim())){
                 Toast.makeText(applicationContext, "Ese evento ya existe", Toast.LENGTH_SHORT)
@@ -95,7 +95,7 @@ class AddEvento : AppCompatActivity(), CoroutineScope {
                     Utilidades.toastCourutine(
                         this_activity,
                         applicationContext,
-                        "Evento creada con exito"
+                        "creado con exito"
                     )
 
                     val newIntent= Intent(applicationContext, InicioAdmin::class.java)

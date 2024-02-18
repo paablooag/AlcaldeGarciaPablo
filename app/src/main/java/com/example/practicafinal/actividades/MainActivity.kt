@@ -8,16 +8,18 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Paint
+import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.example.practicafinal.Estado_not
+import com.example.practicafinal.EstadoNoti
 import com.example.practicafinal.Pedido
 import com.example.practicafinal.R
 import com.example.practicafinal.ui.administrador.pedidos.PedidosFragmentAdmin
@@ -35,21 +37,22 @@ import java.util.concurrent.atomic.AtomicInteger
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var auth: FirebaseAuth
-    private var user: FirebaseUser?=null
-    private var email:String=""
-    private var password:String=""
-    private lateinit var emailEdit: TextInputEditText
-    private lateinit var passwordEdit: TextInputEditText
-    private lateinit var log: Button
-    private lateinit var newintent: Intent
-    private lateinit var register: TextView
-    private lateinit var forgotpass: TextView
-    private lateinit var db_ref: DatabaseReference
-    private var androidId: String = ""
-    private lateinit var generator: AtomicInteger
+    private lateinit var autenticacion: FirebaseAuth
+    private var usuario: FirebaseUser?=null
+    private var correo:String=""
+    private var contrasena:String=""
+    private lateinit var correoEdit: TextInputEditText
+    private lateinit var contrasenaEdit: TextInputEditText
+    private lateinit var iniciarSesion: Button
+    private lateinit var nuevoIntento: Intent
+    private lateinit var registro: TextView
+    private lateinit var olvidoContrasena: TextView
+    private lateinit var referenciaDB: DatabaseReference
+    private var idAndroid: String = ""
+    private lateinit var generador: AtomicInteger
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -57,28 +60,28 @@ class MainActivity : AppCompatActivity() {
         FirebaseApp.initializeApp(this)
 
         inicializarVariables()
-        log()
+        iniciarSesion()
 
-        createChannel()
-        androidId = android.provider.Settings.Secure.getString(
+        crearCanal()
+        idAndroid = android.provider.Settings.Secure.getString(
             contentResolver,
             android.provider.Settings.Secure.ANDROID_ID
         )
-        db_ref = FirebaseDatabase.getInstance().reference
-        generator = AtomicInteger(0)
+        referenciaDB = FirebaseDatabase.getInstance().reference
+        generador = AtomicInteger(0)
 
-        db_ref.child("Pedidos")
+        referenciaDB.child("Pedidos")
             .addChildEventListener(object : ChildEventListener {
                 override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                     val pojo = snapshot.getValue(Pedido::class.java)
-                    if (!pojo!!.userNotifications.equals(androidId) && pojo.not_state!!.equals(
-                            Estado_not.creado
+                    if (!pojo!!.userNotifications.equals(idAndroid) && pojo.not_state!!.equals(
+                            EstadoNoti.creado
                         )
                     ) {
-                        db_ref.child("Pedidos").child(pojo.id!!)
-                            .child("not_state").setValue(Estado_not.notificado)
-                        generateNotification(
-                            generator.incrementAndGet(),
+                        referenciaDB.child("Pedidos").child(pojo.id!!)
+                            .child("not_state").setValue(EstadoNoti.notificado)
+                        generarNotificacion(
+                            generador.incrementAndGet(),
                             pojo,
                             "Tienes un nuevo pedido!" + pojo.id,
                             "Nuevos datos en la app",
@@ -89,20 +92,20 @@ class MainActivity : AppCompatActivity() {
 
                 override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
                     val pojo = snapshot.getValue(Pedido::class.java)
-                    if (!pojo!!.userNotifications.equals(androidId) && pojo.not_state!!.equals(
-                            Estado_not.modificado
+                    if (!pojo!!.userNotifications.equals(idAndroid) && pojo.not_state!!.equals(
+                            EstadoNoti.modificado
                         )
                     ) {
-                        db_ref.child("Pedidos").child(pojo.id!!)
-                            .child("not_state").setValue(Estado_not.notificado)
-                        if (pojo.id_cliente==auth.currentUser?.uid)
-                        generateNotification(
-                            generator.incrementAndGet(),
-                            pojo,
-                            "Se ha aceptado tu  pedido" + pojo.id,
-                            "Datos modificados en la app",
-                            PedidosFragmentCliente::class.java
-                        )
+                        referenciaDB.child("Pedidos").child(pojo.id!!)
+                            .child("not_state").setValue(EstadoNoti.notificado)
+                        if (pojo.id_cliente==autenticacion.currentUser?.uid)
+                            generarNotificacion(
+                                generador.incrementAndGet(),
+                                pojo,
+                                "Se ha aceptado tu  pedido" + pojo.id,
+                                "Datos modificados en la app",
+                                PedidosFragmentCliente::class.java
+                            )
                     }
                 }
 
@@ -122,24 +125,24 @@ class MainActivity : AppCompatActivity() {
             })
     }
 
-    private fun generateNotification(
+    private fun generarNotificacion(
         id_not: Int,
         pojo: Parcelable,
-        content: String,
-        tittle: String,
-        destiny: Class<*>
+        contenido: String,
+        titulo: String,
+        destino: Class<*>
     ) {
-        val newIntent = Intent(applicationContext, destiny)
-        newIntent.putExtra("clinic", pojo)
+        val nuevoIntento = Intent(applicationContext, destino)
+        nuevoIntento.putExtra("clinic", pojo)
 
         var id = "test_channel"
         var pedingIntent =
-            PendingIntent.getActivity(this, 0, newIntent, PendingIntent.FLAG_MUTABLE)
+            PendingIntent.getActivity(this, 0, nuevoIntento, PendingIntent.FLAG_MUTABLE)
 
-        val notification = NotificationCompat.Builder(this, id)
+        val notificacion = NotificationCompat.Builder(this, id)
             .setSmallIcon(R.drawable.logo)
-            .setContentTitle(tittle)
-            .setContentText(content)
+            .setContentTitle(titulo)
+            .setContentText(contenido)
             .setSubText("sistema de informacion")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pedingIntent)
@@ -154,78 +157,68 @@ class MainActivity : AppCompatActivity() {
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
             }
-            notify(id_not, notification)
+            notify(id_not, notificacion)
         }
     }
-    private fun createChannel() {
-        val name = "basic_channel"
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun crearCanal() {
+        val nombre = "basic_channel"
         var id = "test_channel"
-        val description = "basic notification"
-        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val descripcion = "basic notification"
+        val importancia = NotificationManager.IMPORTANCE_DEFAULT
 
-        val channel = NotificationChannel(id, name, importance).apply {
-            this.description = description
+        val canal = NotificationChannel(id, nombre, importancia).apply {
+            this.description = descripcion
         }
 
         val nm: NotificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        nm.createNotificationChannel(channel)
+        nm.createNotificationChannel(canal)
     }
 
     private fun inicializarVariables(){
-        auth= FirebaseAuth.getInstance()
-        user=auth.currentUser
-        emailEdit=findViewById<TextInputEditText>(R.id.user)
-        passwordEdit=findViewById<TextInputEditText>(R.id.password)
-        log=findViewById<Button>(R.id.log)
-        register=findViewById<TextView>(R.id.register)
-        forgotpass=findViewById<TextView>(R.id.forgotpass)
+        autenticacion= FirebaseAuth.getInstance()
+        usuario=autenticacion.currentUser
+        correoEdit=findViewById<TextInputEditText>(R.id.user)
+        contrasenaEdit=findViewById<TextInputEditText>(R.id.password)
+        iniciarSesion=findViewById<Button>(R.id.log)
+        registro=findViewById<TextView>(R.id.register)
+        olvidoContrasena=findViewById<TextView>(R.id.forgotpass)
 
-        register.setPaintFlags(register.getPaintFlags() or Paint.UNDERLINE_TEXT_FLAG)
-        forgotpass.setPaintFlags(forgotpass.getPaintFlags() or Paint.UNDERLINE_TEXT_FLAG)
+        registro.setPaintFlags(registro.getPaintFlags() or Paint.UNDERLINE_TEXT_FLAG)
+        olvidoContrasena.setPaintFlags(olvidoContrasena.getPaintFlags() or Paint.UNDERLINE_TEXT_FLAG)
 
-        if (user!=null){
-            //Especificar Intent
-            newintent= Intent(this, ComprobadorTipo::class.java)
-            startActivity(newintent)
+        if (usuario!=null){
+           nuevoIntento= Intent(this, ComprobadorTipo::class.java)
+            startActivity(nuevoIntento)
         }
 
-        //Falta hacer las animaciones etc
 
-        register.setOnClickListener {
-            //Animation.animation(register, 0.98f, 1.0f, 100)
-            //register.setTextColor(getColor(R.color.softblack))
-            //register.postDelayed({ register.setTextColor(getColor(R.color.black)) }, 300)
-            newintent= Intent(this, Register::class.java)
-            startActivity(newintent)
+        registro.setOnClickListener {
+        nuevoIntento= Intent(this, Register::class.java)
+            startActivity(nuevoIntento)
         }
 
-//        forgotpass.setOnClickListener {
-        //Animation.animation(register, 0.98f, 1.0f, 100)
-        //register.setTextColor(getColor(R.color.softblack))
-        //register.postDelayed({ register.setTextColor(getColor(R.color.black)) }, 300)
-        //newintent=Intent(this, ForgotPass::class.java)
-//        }
     }
 
-    private fun log(){
-        log.setOnClickListener {
-            if (emailEdit.text.isNullOrBlank() || passwordEdit.text.isNullOrBlank()){
-                if (emailEdit.text.isNullOrBlank()){
-                    emailEdit.setError("Este campo es obligatorio")
+    private fun iniciarSesion(){
+        iniciarSesion.setOnClickListener {
+            if (correoEdit.text.isNullOrBlank() || contrasenaEdit.text.isNullOrBlank()){
+                if (correoEdit.text.isNullOrBlank()){
+                    correoEdit.setError("Este campo es obligatorio")
                 }
-                if (passwordEdit.text.isNullOrBlank()){
-                    passwordEdit.setError("Este campo es obligatorio")
+                if (contrasenaEdit.text.isNullOrBlank()){
+                    contrasenaEdit.setError("Este campo es obligatorio")
                 }
             }else{
-                email=emailEdit.text.toString()
-                password=passwordEdit.text.toString()
+                correo=correoEdit.text.toString()
+                contrasena=contrasenaEdit.text.toString()
 
-                auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
+                autenticacion.signInWithEmailAndPassword(correo, contrasena).addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        user=auth.currentUser
-                        newintent= Intent(this, ComprobadorTipo::class.java)
-                        startActivity(newintent)
+                        usuario=autenticacion.currentUser
+                        nuevoIntento= Intent(this, ComprobadorTipo::class.java)
+                        startActivity(nuevoIntento)
                     } else {
                         Toast.makeText(this, "Usuario o contraseña incorrectas", Toast.LENGTH_SHORT)
                             .show()

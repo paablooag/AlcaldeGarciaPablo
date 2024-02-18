@@ -17,17 +17,30 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.tasks.await
 
-
 class Utilidades {
 
     companion object{
 
+        // Funciones de creación
         fun crearUsuario(email:String, password:String, nombre:String,img:String){
-            var dtb_ref= FirebaseDatabase.getInstance().reference
-            val usuario=Usuario(FirebaseAuth.getInstance().currentUser!!.uid,nombre, email, password,"cliente",img)
-            dtb_ref.child("Usuarios").child(FirebaseAuth.getInstance().currentUser!!.uid).setValue(usuario)
+            val referenciaBaseDatos = FirebaseDatabase.getInstance().reference
+            val usuario = Usuario(FirebaseAuth.getInstance().currentUser!!.uid,nombre, email, password,"cliente",img)
+            referenciaBaseDatos.child("Usuarios").child(FirebaseAuth.getInstance().currentUser!!.uid).setValue(usuario)
         }
 
+        fun crearCarta(referenciaBaseDatos:DatabaseReference,carta: Carta){
+            referenciaBaseDatos.child("Cartas").child(carta.id).setValue(carta)
+        }
+
+        fun crearPedido(referenciaBaseDatos:DatabaseReference,pedido: Pedido){
+            referenciaBaseDatos.child("Pedidos").child(pedido.id).setValue(pedido)
+        }
+
+        fun crearEvento(referenciaBaseDatos:DatabaseReference,evento: Evento){
+            referenciaBaseDatos.child("Eventos").child(evento.id).setValue(evento)
+        }
+
+        // Funciones de existencia
         fun existeCarta(cartas: List<Carta>, name: String): Boolean {
             return cartas.any { it.nombre!!.lowercase() == name.lowercase() }
         }
@@ -36,15 +49,16 @@ class Utilidades {
             return eventos.any { it.nombre!!.lowercase() == name.lowercase() && it.fecha!! == fecha }
         }
 
-        fun obtenerCartas(dtb_ref:DatabaseReference): MutableList<Carta> {
-            var list = mutableListOf<Carta>()
+        // Funciones de obtención
+        fun obtenerCartas(referenciaBaseDatos:DatabaseReference): MutableList<Carta> {
+            val listaCartas = mutableListOf<Carta>()
 
-            dtb_ref.child("Cartas")
+            referenciaBaseDatos.child("Cartas")
                 .addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         snapshot.children.forEach { child: DataSnapshot ->
-                            val pojo_carta = child.getValue(Carta::class.java)
-                            list.add(pojo_carta!!)
+                            val carta = child.getValue(Carta::class.java)
+                            listaCartas.add(carta!!)
                         }
                     }
 
@@ -52,18 +66,18 @@ class Utilidades {
                         println(error.message)
                     }
                 })
-            return list
+            return listaCartas
         }
 
-        fun obtenerEventos(dtb_ref:DatabaseReference): MutableList<Evento> {
-            var list = mutableListOf<Evento>()
+        fun obtenerEventos(referenciaBaseDatos:DatabaseReference): MutableList<Evento> {
+            val listaEventos = mutableListOf<Evento>()
 
-            dtb_ref.child("Eventos")
+            referenciaBaseDatos.child("Eventos")
                 .addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         snapshot.children.forEach { child: DataSnapshot ->
-                            val pojo_evento = child.getValue(Evento::class.java)
-                            list.add(pojo_evento!!)
+                            val evento = child.getValue(Evento::class.java)
+                            listaEventos.add(evento!!)
                         }
                     }
 
@@ -71,25 +85,25 @@ class Utilidades {
                         println(error.message)
                     }
                 })
-            return list
+            return listaEventos
         }
 
-        fun crearCarta(dtb_ref:DatabaseReference,carta: Carta){
-            dtb_ref.child("Cartas").child(carta.id).setValue(carta)
+        suspend fun obtenerUsuario(referenciaBaseDatos: DatabaseReference):Usuario{
+            var usuario:Usuario?=null
+            try {
+                val dataSnapshot = referenciaBaseDatos.child("Usuarios").child(FirebaseAuth.getInstance().currentUser!!.uid).get().await()
+                usuario = dataSnapshot.getValue(Usuario::class.java)
+            } catch (e: Exception) {
+
+            }
+            return usuario!!
         }
 
-        fun crearPedido(dtb_ref:DatabaseReference,pedido: Pedido){
-            dtb_ref.child("Pedidos").child(pedido.id).setValue(pedido)
-        }
-
-        fun crearEvento(dtb_ref:DatabaseReference,evento: Evento){
-            dtb_ref.child("Eventos").child(evento.id).setValue(evento)
-        }
-
+        // Funciones de guardado de fotos
         suspend fun guardarFotoCarta(id: String, image: Uri): String {
             lateinit var url_photo_firebase: Uri
-            var sto_ref: StorageReference = FirebaseStorage.getInstance().reference
-            url_photo_firebase = sto_ref.child("Cartas").child("photos").child(id)
+            val referenciaAlmacenamiento: StorageReference = FirebaseStorage.getInstance().reference
+            url_photo_firebase = referenciaAlmacenamiento.child("Cartas").child("photos").child(id)
                 .putFile(image).await().storage.downloadUrl.await()
 
             return url_photo_firebase.toString()
@@ -97,8 +111,8 @@ class Utilidades {
 
         suspend fun guardarFotoEvento(id: String, image: Uri): String {
             lateinit var url_photo_firebase: Uri
-            var sto_ref: StorageReference = FirebaseStorage.getInstance().reference
-            url_photo_firebase = sto_ref.child("Eventos").child("photos").child(id)
+            val referenciaAlmacenamiento: StorageReference = FirebaseStorage.getInstance().reference
+            url_photo_firebase = referenciaAlmacenamiento.child("Eventos").child("photos").child(id)
                 .putFile(image).await().storage.downloadUrl.await()
 
             return url_photo_firebase.toString()
@@ -106,24 +120,14 @@ class Utilidades {
 
         suspend fun guardarFotoUsuario(image: Uri): String {
             lateinit var url_photo_firebase: Uri
-            var sto_ref: StorageReference = FirebaseStorage.getInstance().reference
-            url_photo_firebase = sto_ref.child("Usuarios").child("photos").child(FirebaseAuth.getInstance().currentUser!!.uid)
+            val referenciaAlmacenamiento: StorageReference = FirebaseStorage.getInstance().reference
+            url_photo_firebase = referenciaAlmacenamiento.child("Usuarios").child("photos").child(FirebaseAuth.getInstance().currentUser!!.uid)
                 .putFile(image).await().storage.downloadUrl.await()
 
             return url_photo_firebase.toString()
         }
 
-       suspend fun obtenerUsuario(dtb_ref: DatabaseReference):Usuario{
-           var usuario:Usuario?=null
-           try {
-               val dataSnapshot = dtb_ref.child("Usuarios").child(FirebaseAuth.getInstance().currentUser!!.uid).get().await()
-               usuario = dataSnapshot.getValue(Usuario::class.java)
-           } catch (e: Exception) {
-
-           }
-            return usuario!!
-        }
-
+        // Funciones de utilidad
         fun toastCourutine(activity: Activity, contex: Context, text: String) {
             activity.runOnUiThread {
                 Toast.makeText(contex, text, Toast.LENGTH_SHORT).show()

@@ -81,9 +81,7 @@ class EditarCarta : AppCompatActivity(), CoroutineScope {
             R.array.categorias,
             android.R.layout.simple_spinner_item
         ).also { adapter ->
-            // Specify the layout to use when the list of choices appears.
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner.
             categoriaLayout.adapter = adapter
             pos = array.indexOf(carta.categoria)
             categoriaLayout.setSelection(pos)
@@ -108,7 +106,7 @@ class EditarCarta : AppCompatActivity(), CoroutineScope {
 
                 Toast.makeText(
                     applicationContext, "Faltan datos en el " +
-                            "formularion", Toast.LENGTH_SHORT
+                            "formulario", Toast.LENGTH_SHORT
                 ).show()
 
             } else if (Utilidades.existeCarta(
@@ -116,7 +114,7 @@ class EditarCarta : AppCompatActivity(), CoroutineScope {
                     nombre.text.toString().trim()
                 ) && !nombre.text.toString().trim().equals(beforeName)
             ) {
-                Toast.makeText(applicationContext, "Esa Carta ya existe", Toast.LENGTH_SHORT)
+                Toast.makeText(applicationContext, "ya existe", Toast.LENGTH_SHORT)
                     .show()
             } else {
 
@@ -149,7 +147,7 @@ class EditarCarta : AppCompatActivity(), CoroutineScope {
                     Utilidades.toastCourutine(
                         this_activity,
                         applicationContext,
-                        "Carta modificado con exito"
+                        "modificado con exito"
                     )
                     val activity = Intent(applicationContext, InicioAdmin::class.java)
                     startActivity(activity)

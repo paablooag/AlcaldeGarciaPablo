@@ -23,7 +23,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-class EditEventos : AppCompatActivity() , CoroutineScope {
+class EditarEvento : AppCompatActivity() , CoroutineScope {
 
     private lateinit var evento: Evento
     private lateinit var nombre: TextInputEditText
@@ -42,7 +42,7 @@ class EditEventos : AppCompatActivity() , CoroutineScope {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit_eventos)
+        setContentView(R.layout.activity_editar_eventos)
         val this_activity = this
         job = Job()
 
@@ -52,9 +52,7 @@ class EditEventos : AppCompatActivity() , CoroutineScope {
         beforeName=nombre.text.toString()
         precio = findViewById(R.id.add_precio)
         precio.setText(evento.precio)
-        fecha = findViewById(R.id.add_fecha)
         fecha.setText(evento.fecha)
-        aforo = findViewById(R.id.add_aforo)
         aforo.setText(evento.aforo_maximo)
         guardar = findViewById(R.id.guardar)
 
@@ -94,7 +92,6 @@ class EditEventos : AppCompatActivity() , CoroutineScope {
                     .show()
             } else {
 
-                //GlobalScope(Dispatchers.IO)
                 photo.setOnClickListener {
                     galeryAcces.launch("image/*")
                 }

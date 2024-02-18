@@ -9,7 +9,7 @@ import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.practicafinal.actividades.administrador.Add_carta
+import com.example.practicafinal.actividades.administrador.AnadirCarta
 import com.example.practicafinal.Carta
 import com.example.practicafinal.CartaAdaptador
 import com.example.practicafinal.actividades.MainActivity
@@ -28,9 +28,6 @@ class HomeFragmentAdmin : Fragment() {
     private lateinit var lista: MutableList<Carta>
     private lateinit var adaptador: CartaAdaptador
     private var applicationcontext = this.context
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -94,7 +91,7 @@ class HomeFragmentAdmin : Fragment() {
 
         _binding!!.addCarta.setOnClickListener {
 
-            var newIntent= Intent(context, Add_carta::class.java)
+            var newIntent= Intent(context, AnadirCarta::class.java)
             startActivity(newIntent)
 
         }

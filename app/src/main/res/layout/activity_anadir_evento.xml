@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".actividades.administrador.AddEvento">
+    tools:context=".actividades.administrador.AnadirEvento">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,7 +18,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/add_img"
+                android:src="@drawable/pokeballabierta"
                 android:adjustViewBounds="true"
                 android:layout_marginTop="20dp"
                 />

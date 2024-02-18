@@ -15,116 +15,116 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.practicafinal.actividades.administrador.EditEventos
+import com.example.practicafinal.actividades.administrador.EditarEvento
 import com.example.practicafinal.actividades.administrador.EventoInfo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 
-class EventoAdaptador(private var lista:MutableList<Evento>,private var inscripciones:MutableList<Inscripcion>?=null) : RecyclerView.Adapter<EventoAdaptador.EventoViewHolder>(),
+class EventoAdaptador(private var listaEventos:MutableList<Evento>,private var listaInscripciones:MutableList<Inscripcion>?=null) : RecyclerView.Adapter<EventoAdaptador.EventoViewHolder>(),
     Filterable {
 
-    private lateinit var context: Context
-    private var filter_list=lista
-    class EventoViewHolder(item: View) : RecyclerView.ViewHolder(item) {
-        val foto=item.findViewById<ImageView>(R.id.photo_item_evento)
-        val nombre=item.findViewById<TextView>(R.id.name_item_evento)
-        val precio=item.findViewById<TextView>(R.id.precio_item_evento)
-        val fecha=item.findViewById<TextView>(R.id.fecha_item_evento)
-        val aforoMax=item.findViewById<TextView>(R.id.aforo_item_evento)
-        val aforoAct=item.findViewById<TextView>(R.id.aforo_actual_item_evento)
-        val apuntarse=item.findViewById<ImageView>(R.id.estado_evento)
+    private lateinit var contexto: Context
+    private var listaFiltrada=listaEventos
+
+    class EventoViewHolder(vistaItem: View) : RecyclerView.ViewHolder(vistaItem) {
+        val fotoEvento=vistaItem.findViewById<ImageView>(R.id.photo_item_evento)
+        val nombreEvento=vistaItem.findViewById<TextView>(R.id.name_item_evento)
+        val precioEvento=vistaItem.findViewById<TextView>(R.id.precio_item_evento)
+        val fechaEvento=vistaItem.findViewById<TextView>(R.id.fecha_item_evento)
+        val aforoMaxEvento=vistaItem.findViewById<TextView>(R.id.aforo_item_evento)
+        val aforoActEvento=vistaItem.findViewById<TextView>(R.id.aforo_actual_item_evento)
+        val botonApuntarse=vistaItem.findViewById<ImageView>(R.id.estado_evento)
     }
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventoViewHolder {
-        val item_view =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_evento, parent, false)
-        context = parent.context
-        return EventoViewHolder(item_view)
+    override fun onCreateViewHolder(grupoPadre: ViewGroup, tipoVista: Int): EventoViewHolder {
+        val vistaItem =
+            LayoutInflater.from(grupoPadre.context).inflate(R.layout.item_evento, grupoPadre, false)
+        contexto = grupoPadre.context
+        return EventoViewHolder(vistaItem)
     }
 
-    override fun onBindViewHolder(holder: EventoViewHolder, position: Int) {
-        val actual_item=filter_list[position]
+    override fun onBindViewHolder(portadorVista: EventoViewHolder, posicion: Int) {
+        val eventoActual=listaFiltrada[posicion]
         var inscripcion:Inscripcion?=Inscripcion()
-        if (inscripciones!=null){
-            inscripcion=inscripciones!!.find { it.id_evento.equals(actual_item.id) }
+        if (listaInscripciones!=null){
+            inscripcion=listaInscripciones!!.find { it.id_evento.equals(eventoActual.id) }
         }
-        holder.nombre.text=actual_item.nombre
-        holder.fecha.text="Fecha: "+actual_item.fecha
-        holder.precio.text="Precio: "+actual_item.precio
-        holder.aforoMax.text="Aforo Máximo: "+actual_item.aforo_maximo
-        holder.aforoAct.text="Aforo Actual: "+actual_item.aforo
+        portadorVista.nombreEvento.text=eventoActual.nombre
+        portadorVista.fechaEvento.text="Fecha: "+eventoActual.fecha
+        portadorVista.precioEvento.text="Precio: "+eventoActual.precio
+        portadorVista.aforoMaxEvento.text="Aforo Máximo: "+eventoActual.aforo_maximo
+        portadorVista.aforoActEvento.text="Aforo Actual: "+eventoActual.aforo
 
-        val URL:String? = when (actual_item.imagen){
+        val URL:String? = when (eventoActual.imagen){
             ""->null
-            else->actual_item.imagen
+            else->eventoActual.imagen
         }
 
-        var sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-        var tipo = sharedPreferences.getString("tipo", "cliente")
+        var preferenciasCompartidas = PreferenceManager.getDefaultSharedPreferences(contexto)
+        var tipoUsuario = preferenciasCompartidas.getString("tipo", "cliente")
 
-        if (tipo.equals("cliente",true)) {
-            holder.itemView.setOnLongClickListener {
+        if (tipoUsuario.equals("cliente",true)) {
+            portadorVista.itemView.setOnLongClickListener {
                 false
             }
 
-            if (inscripcion!=null && inscripcion.id_evento.equals(actual_item.id,true) && inscripcion.id_ususario.equals(
+            if (inscripcion!=null && inscripcion.id_evento.equals(eventoActual.id,true) && inscripcion.id_ususario.equals(
                     FirebaseAuth.getInstance().currentUser!!.uid,true
                 )
             ){
-                holder.apuntarse.setImageResource(R.drawable.baseline_check_circle_24)
-        }else {
-                holder.apuntarse.setOnClickListener {
-                    var db_ref = FirebaseDatabase.getInstance().reference
-                    var id = db_ref.push().key
+                portadorVista.botonApuntarse.setImageResource(R.drawable.baseline_check_circle_24)
+            }else {
+                portadorVista.botonApuntarse.setOnClickListener {
+                    var referenciaBaseDatos = FirebaseDatabase.getInstance().reference
+                    var id = referenciaBaseDatos.push().key
                     val inscripcion =
-                        Inscripcion(id!!,actual_item.id, FirebaseAuth.getInstance().currentUser!!.uid)
-                    db_ref.child("Inscripciones").child(id!!).setValue(inscripcion)
-                    actual_item.aforo = (actual_item.aforo.toInt() + 1).toString()
-                    db_ref.child("Eventos").child(actual_item.id).setValue(actual_item)
-                    holder.apuntarse.setImageResource(R.drawable.baseline_check_circle_24)
+                        Inscripcion(id!!,eventoActual.id, FirebaseAuth.getInstance().currentUser!!.uid)
+                    referenciaBaseDatos.child("Inscripciones").child(id!!).setValue(inscripcion)
+                    eventoActual.aforo = (eventoActual.aforo.toInt() + 1).toString()
+                    referenciaBaseDatos.child("Eventos").child(eventoActual.id).setValue(eventoActual)
+                    portadorVista.botonApuntarse.setImageResource(R.drawable.baseline_check_circle_24)
                 }
             }
 
-
         }else {
 
-            holder.apuntarse.visibility=View.GONE
+            portadorVista.botonApuntarse.visibility=View.GONE
 
-            holder.itemView.setOnClickListener {
-                var newIntent=Intent(context, EventoInfo::class.java)
-                newIntent.putExtra("evento",actual_item)
-                context.startActivity(newIntent)
+            portadorVista.itemView.setOnClickListener {
+                var nuevoIntento=Intent(contexto, EventoInfo::class.java)
+                nuevoIntento.putExtra("evento",eventoActual)
+                contexto.startActivity(nuevoIntento)
             }
 
-            holder.itemView.setOnLongClickListener {
-                val popup = PopupMenu(context, holder.itemView)
+            portadorVista.itemView.setOnLongClickListener {
+                val menuPopup = PopupMenu(contexto, portadorVista.itemView)
 
-                popup.inflate(R.menu.carta_op_menu)
+                menuPopup.inflate(R.menu.carta_op_menu)
 
-                popup.setOnMenuItemClickListener {
+                menuPopup.setOnMenuItemClickListener {
                     when (it.itemId) {
                         R.id.editar -> {
-                            var newIntent = Intent(context, EditEventos::class.java)
-                            newIntent.putExtra("evento", actual_item)
-                            context.startActivity(newIntent)
+                            var nuevoIntento = Intent(contexto, EditarEvento::class.java)
+                            nuevoIntento.putExtra("evento", eventoActual)
+                            contexto.startActivity(nuevoIntento)
                             true
                         }
 
                         R.id.eliminar -> {
-                            val db_ref = FirebaseDatabase.getInstance().getReference()
-                            val sto_ref = FirebaseStorage.getInstance().getReference()
+                            val referenciaBaseDatos = FirebaseDatabase.getInstance().getReference()
+                            val referenciaAlmacenamiento = FirebaseStorage.getInstance().getReference()
 
-                            filter_list.remove(actual_item)
-                            sto_ref.child("Eventos").child("photos").child(actual_item.id!!)
+                            listaFiltrada.remove(eventoActual)
+                            referenciaAlmacenamiento.child("Eventos").child("photos").child(eventoActual.id!!)
                                 .delete()
-                            db_ref.child("Eventos").child(actual_item.id!!).removeValue()
+                            referenciaBaseDatos.child("Eventos").child(eventoActual.id!!).removeValue()
 
-                            if (inscripciones!=null){
-                                inscripciones!!.remove(inscripcion)
-                                db_ref.child("Inscripciones").child(inscripcion!!.id).removeValue()
+                            if (listaInscripciones!=null){
+                                listaInscripciones!!.remove(inscripcion)
+                                referenciaBaseDatos.child("Inscripciones").child(inscripcion!!.id).removeValue()
                             }
 
-                            Toast.makeText(context, "Evento borrado con exito", Toast.LENGTH_SHORT)
+                            Toast.makeText(contexto, "Evento borrado con exito", Toast.LENGTH_SHORT)
                                 .show()
                             true
                         }
@@ -133,26 +133,25 @@ class EventoAdaptador(private var lista:MutableList<Evento>,private var inscripc
                     }
                 }
                 try {
-                    val fieldMPopup = PopupMenu::class.java.getDeclaredField("mPopup")
-                    fieldMPopup.isAccessible = true
-                    val mPopup = fieldMPopup.get(popup)
+                    val campoMPopup = PopupMenu::class.java.getDeclaredField("mPopup")
+                    campoMPopup.isAccessible = true
+                    val mPopup = campoMPopup.get(menuPopup)
                     mPopup.javaClass
                         .getDeclaredMethod("setForceShowIcon", Boolean::class.java)
                         .invoke(mPopup, true)
                 } catch (e: Exception) {
-                    Log.e("Main", "Error showing menu icons.", e)
+                    Log.e("Main", "Error mostrando iconos del menu.", e)
                 } finally {
-                    popup.show()
+                    menuPopup.show()
                 }
-//            popup.show()
                 true
             }
         }
 
-        Glide.with(context).load(URL).apply(Utilidades.glideOptions(context)).transition(Utilidades.transition).into(holder.foto)
+        Glide.with(contexto).load(URL).apply(Utilidades.glideOptions(contexto)).transition(Utilidades.transition).into(portadorVista.fotoEvento)
     }
 
-    override fun getItemCount(): Int = filter_list.size
+    override fun getItemCount(): Int = listaFiltrada.size
 
     override fun getFilter(): Filter {
         TODO("Not implemented")

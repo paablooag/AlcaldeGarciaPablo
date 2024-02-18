@@ -25,7 +25,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-class Add_carta : AppCompatActivity(), CoroutineScope {
+class AnadirCarta : AppCompatActivity(), CoroutineScope {
 
     private lateinit var nombreLayout: TextInputEditText
     private lateinit var categoriaLayout: Spinner
@@ -64,9 +64,7 @@ class Add_carta : AppCompatActivity(), CoroutineScope {
             R.array.categorias,
             android.R.layout.simple_spinner_item
         ).also { adapter ->
-            // Specify the layout to use when the list of choices appears.
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner.
             categoriaLayout.adapter = adapter
         }
 
@@ -77,7 +75,6 @@ class Add_carta : AppCompatActivity(), CoroutineScope {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                // write code to perform some action
             }
         }
 

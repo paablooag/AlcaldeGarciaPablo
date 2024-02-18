@@ -45,17 +45,17 @@
             app:layout_constraintBottom_toBottomOf="@+id/icon"
             app:layout_constraintEnd_toStartOf="@+id/icon"
             app:layout_constraintStart_toStartOf="parent"
-            android:background="@drawable/sqaure_button_white"
             app:layout_constraintTop_toTopOf="@+id/icon">
 
-            <TextView
-                android:background="@drawable/sqaure_button_white"
+            <ImageView
                 android:id="@+id/filtrar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_gravity="center"
-                android:padding="5dp"
-                android:text="FILTRAR" />
+                android:src="@drawable/baseline_filter_list_24"
+                android:adjustViewBounds="true"
+
+                />
         </androidx.cardview.widget.CardView>
 
         <Space

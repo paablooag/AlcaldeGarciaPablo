@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -16,16 +17,16 @@
             android:name=".actividades.Autor"
             android:exported="false" />
         <activity
-            android:name=".actividades.administrador.EditEventos"
+            android:name=".actividades.administrador.EditarEvento"
             android:exported="false" />
         <activity
-            android:name=".actividades.administrador.AddEvento"
+            android:name=".actividades.administrador.AnadirEvento"
             android:exported="false" />
         <activity
             android:name=".actividades.administrador.EditarCarta"
             android:exported="false" />
         <activity
-            android:name=".actividades.administrador.Add_carta"
+            android:name=".actividades.administrador.AnadirCarta"
             android:exported="false" />
         <activity
             android:name=".actividades.administrador.InicioAdmin"
