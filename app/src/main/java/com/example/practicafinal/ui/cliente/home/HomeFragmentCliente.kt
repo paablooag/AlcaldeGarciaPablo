@@ -112,7 +112,6 @@ class HomeFragmentCliente : Fragment() {
             popupMenu.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.log_out -> {
-                        // Handle item1 click
                         user.signOut()
                         var newIntent= Intent(context, MainActivity::class.java)
                         startActivity(newIntent)
