@@ -30,8 +30,8 @@ class EditarCarta : AppCompatActivity(), CoroutineScope {
 
     private lateinit var carta: Carta
     private lateinit var nombre: TextInputEditText
-    private lateinit var precio: TextInputEditText
-    private lateinit var stock: TextInputEditText
+    private lateinit var series: TextInputEditText
+    private lateinit var repeticiones: TextInputEditText
     private lateinit var categoriaLayout: Spinner
     private lateinit var photo: ImageView
     private lateinit var guardar: Button
@@ -56,10 +56,10 @@ class EditarCarta : AppCompatActivity(), CoroutineScope {
         nombre = findViewById(R.id.add_name)
         nombre.setText(carta.nombre)
         beforeName=nombre.text.toString()
-        precio = findViewById(R.id.add_precio)
-        precio.setText(carta.precio)
-        stock = findViewById(R.id.add_stock)
-        stock.setText(carta.stock)
+        series = findViewById(R.id.add_series)
+        series.setText(carta.series)
+        repeticiones = findViewById(R.id.add_repeticiones)
+        repeticiones.setText(carta.repeticiones)
         categoriaLayout = findViewById(R.id.add_categoria)
         array = resources.getStringArray(R.array.categorias)
         guardar = findViewById(R.id.guardar)
@@ -100,8 +100,8 @@ class EditarCarta : AppCompatActivity(), CoroutineScope {
         guardar.setOnClickListener {
 
             if (nombre.text.toString().trim().isEmpty() ||
-                categoria==null || precio.text.toString().trim()
-                    .isEmpty() || stock.text.toString().trim().isEmpty()
+                categoria==null || series.text.toString().trim()
+                    .isEmpty() || repeticiones.text.toString().trim().isEmpty()
             ) {
 
                 Toast.makeText(
@@ -135,9 +135,9 @@ class EditarCarta : AppCompatActivity(), CoroutineScope {
                     var carta = Carta(
                         carta.id!!,
                         nombre.text.toString().trim().capitalize(),
-                        precio.text.toString().trim().capitalize(),
+                        series.text.toString().trim().capitalize(),
                         categoria!!,
-                        stock.text.toString().trim().capitalize(),
+                        repeticiones.text.toString().trim().capitalize(),
                         url_photo_firebase,
 
                         )

@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/categoria_item"
-            android:text="Precio"
+            android:text="Series"
             android:maxLines="1"
             android:padding="15dp"
             />
@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:padding="15dp"
-            android:text="Stock"
+            android:text="Repeticiones"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/precio_item" />
 

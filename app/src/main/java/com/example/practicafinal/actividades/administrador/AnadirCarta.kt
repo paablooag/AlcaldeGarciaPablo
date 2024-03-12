@@ -29,8 +29,8 @@ class AnadirCarta : AppCompatActivity(), CoroutineScope {
 
     private lateinit var nombreLayout: TextInputEditText
     private lateinit var categoriaLayout: Spinner
-    private lateinit var precioLayout: TextInputEditText
-    private lateinit var stockLayout: TextInputEditText
+    private lateinit var series: TextInputEditText
+    private lateinit var repeticiones: TextInputEditText
     private lateinit var photo: ImageView
     private lateinit var add: Button
     private var categoria: String?=null
@@ -48,8 +48,8 @@ class AnadirCarta : AppCompatActivity(), CoroutineScope {
 
         nombreLayout=findViewById(R.id.add_name)
         categoriaLayout=findViewById(R.id.add_categoria)
-        precioLayout=findViewById(R.id.add_precio)
-        stockLayout=findViewById(R.id.add_stock)
+        series=findViewById(R.id.add_series)
+        repeticiones=findViewById(R.id.add_repeticiones)
         photo=findViewById(R.id.add_image)
 
         add=findViewById(R.id.guardar)
@@ -80,7 +80,7 @@ class AnadirCarta : AppCompatActivity(), CoroutineScope {
 
         add.setOnClickListener {
 
-            if (nombreLayout.text.toString().trim().isEmpty()||categoria==null || precioLayout.text.toString().trim().isEmpty() || stockLayout.text.toString().trim().isEmpty()){
+            if (nombreLayout.text.toString().trim().isEmpty()||categoria==null || series.text.toString().trim().isEmpty() || repeticiones.text.toString().trim().isEmpty()){
                 Toast.makeText(applicationContext, "Faltan campos por rellenar", Toast.LENGTH_SHORT)
                     .show()
             }else if(url_photo==null){
@@ -100,9 +100,9 @@ class AnadirCarta : AppCompatActivity(), CoroutineScope {
                     var carta= Carta(
                         generated_id,
                         nombreLayout.text.toString().trim().capitalize(),
-                        precioLayout.text.toString().trim().capitalize(),
+                        series.text.toString().trim().capitalize(),
                         categoria!!,
-                        stockLayout.text.toString().trim().capitalize(),
+                        repeticiones.text.toString().trim().capitalize(),
                         url_photo_firebase
                     )
                     Utilidades.crearCarta(db_ref, carta)

@@ -46,8 +46,8 @@ class CartaAdaptador(private val listaCartas:MutableList<Carta>): RecyclerView.A
         val cartaActual=listaFiltrada[posicion]
         portadorVista.nombreCarta.text=cartaActual.nombre
         portadorVista.categoriaCarta.text="Categoria: "+cartaActual.categoria
-        portadorVista.precioCarta.text="Precio: "+cartaActual.precio+" €"
-        portadorVista.stockCarta.text="Stock: "+cartaActual.stock
+        portadorVista.precioCarta.text="Series: "+cartaActual.series
+        portadorVista.stockCarta.text="Repeticiones: "+cartaActual.repeticiones
 
         val URL:String? = when (cartaActual.imagen){
             ""->null
@@ -69,13 +69,13 @@ class CartaAdaptador(private val listaCartas:MutableList<Carta>): RecyclerView.A
                 val referenciaBaseDatos = FirebaseDatabase.getInstance().getReference()
                 val idUsuario = FirebaseAuth.getInstance().currentUser?.uid
                 val id = referenciaBaseDatos.push().key
-                cartaActual.stock=(cartaActual.stock.toInt()-1).toString()
+                cartaActual.series=(cartaActual.series.toInt()-1).toString()
                 val idAndroid= Settings.Secure.getString(
                     contexto.contentResolver,
                     Settings.Secure.ANDROID_ID
                 )
                 referenciaBaseDatos.child("Cartas").child(cartaActual.id).setValue(cartaActual)
-                val pedido=Pedido(id!!, idUsuario!!, cartaActual.id, "pendiente", cartaActual.precio, cartaActual.nombre,EstadoNoti.creado,idAndroid)
+                val pedido=Pedido(id!!, idUsuario!!, cartaActual.id, "pendiente", cartaActual.repeticiones, cartaActual.nombre,EstadoNoti.creado,idAndroid)
                 Utilidades.crearPedido(referenciaBaseDatos, pedido)
             }
 

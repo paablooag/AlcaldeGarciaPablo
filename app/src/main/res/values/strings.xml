@@ -10,10 +10,10 @@
     <string name="title_event">Eventos</string>
     <string name="title_pedidos">Pedidos</string>
     <string-array name="categorias">
-        <item>Blanco</item>
-        <item>Negro</item>
-        <item>Rojo</item>
-        <item>Azul</item>
-        <item>Verde</item>
+        <item>Pecho</item>
+        <item>Espalda</item>
+        <item>Brazo</item>
+        <item>Pierna</item>
+        <item>Otro</item>
     </string-array>
 </resources>

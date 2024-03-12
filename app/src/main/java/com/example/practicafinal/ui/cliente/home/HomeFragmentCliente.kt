@@ -142,7 +142,7 @@ class HomeFragmentCliente : Fragment() {
                         ->
                         val pojo_carta = hijo?.getValue(Carta::class.java)
 
-                        if (pojo_carta!!.stock.toInt() > 0 && pojo_carta.categoria.equals(categoria,true)) {
+                        if (pojo_carta!!.series.toInt() > 0 && pojo_carta.categoria.equals(categoria,true)) {
                             lista.add(pojo_carta!!)
                         }
                     }
@@ -166,7 +166,7 @@ class HomeFragmentCliente : Fragment() {
                         ->
                         val pojo_carta = hijo?.getValue(Carta::class.java)
 
-                        if (pojo_carta!!.stock.toInt() > 0) {
+                        if (pojo_carta!!.series.toInt() > 0) {
                             lista.add(pojo_carta)
                         }
                     }

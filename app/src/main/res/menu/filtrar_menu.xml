@@ -6,21 +6,21 @@
 
     <item
         android:id="@+id/azul"
-        android:title="Azul" />
+        android:title="Pecho" />
 
     <item
         android:id="@+id/blanco"
-        android:title="Blanco" />
+        android:title="Espalda" />
 
     <item
         android:id="@+id/negro"
-        android:title="Negro" />
+        android:title="Brazo" />
 
     <item
         android:id="@+id/rojo"
-        android:title="Rojo" />
+        android:title="Pierna" />
 
     <item
         android:id="@+id/verde"
-        android:title="Verde" />
+        android:title="Otro" />
 </menu>
