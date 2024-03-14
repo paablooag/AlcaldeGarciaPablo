@@ -22,6 +22,8 @@
         <activity
             android:name=".actividades.administrador.AnadirEvento"
             android:exported="false" />
+        <activity android:name=".actividades.administrador.EventoInfo"
+            android:exported="false"/>
         <activity
             android:name=".actividades.administrador.EditarCarta"
             android:exported="false" />

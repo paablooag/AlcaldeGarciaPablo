@@ -5,22 +5,22 @@
         android:title="Nombre" />
 
     <item
-        android:id="@+id/azul"
-        android:title="Pecho" />
+        android:id="@+id/proteina"
+        android:title="Proteina" />
 
     <item
-        android:id="@+id/blanco"
-        android:title="Espalda" />
+        android:id="@+id/creatina"
+        android:title="Creatina" />
 
     <item
-        android:id="@+id/negro"
-        android:title="Brazo" />
+        android:id="@+id/preentreno"
+        android:title="Pre-Entreno" />
 
     <item
-        android:id="@+id/rojo"
-        android:title="Pierna" />
+        android:id="@+id/ropa"
+        android:title="Ropa" />
 
     <item
-        android:id="@+id/verde"
+        android:id="@+id/otro"
         android:title="Otro" />
 </menu>

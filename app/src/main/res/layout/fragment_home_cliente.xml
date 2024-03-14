@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/logopokemonpng"
+            android:src="@drawable/logo"
             android:id="@+id/icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -80,7 +80,7 @@
             android:layout_height="50dp"
             android:clickable="true"
             android:focusable="false"
-            app:defaultQueryHint="Buscar Carta"
+            app:defaultQueryHint="Buscar Producto"
             app:iconifiedByDefault="false" />
 
     </androidx.cardview.widget.CardView>

@@ -73,28 +73,28 @@ class HomeFragmentCliente : Fragment() {
                         true
                     }
 
-                    R.id.azul -> {
-                        filtrarCategoria("azul")
+                    R.id.proteina -> {
+                        filtrarCategoria("proteina")
                         true
                     }
 
-                    R.id.blanco -> {
-                        filtrarCategoria("blanco")
+                    R.id.creatina -> {
+                        filtrarCategoria("creatina")
                         true
                     }
 
-                    R.id.negro ->{
-                        filtrarCategoria("negro")
+                    R.id.preentreno ->{
+                        filtrarCategoria("preentreno")
                         true
                     }
 
-                    R.id.rojo ->{
-                        filtrarCategoria("rojo")
+                    R.id.ropa ->{
+                        filtrarCategoria("ropa")
                         true
                     }
 
-                    R.id.verde ->{
-                        filtrarCategoria("verde")
+                    R.id.otro ->{
+                        filtrarCategoria("otro")
                         true
                     }
 
