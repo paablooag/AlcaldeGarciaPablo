@@ -63,6 +63,7 @@ class EventoAdaptador(private var listaEventos:MutableList<Evento>,private var l
         var preferenciasCompartidas = PreferenceManager.getDefaultSharedPreferences(contexto)
         var tipoUsuario = preferenciasCompartidas.getString("tipo", "cliente")
 
+        var apuntado=false
         if (tipoUsuario.equals("cliente",true)) {
             portadorVista.itemView.setOnLongClickListener {
                 false
@@ -72,7 +73,7 @@ class EventoAdaptador(private var listaEventos:MutableList<Evento>,private var l
                     FirebaseAuth.getInstance().currentUser!!.uid,true
                 )
             ){
-                portadorVista.botonApuntarse.setImageResource(R.drawable.baseline_check_circle_24)
+                portadorVista.botonApuntarse.setImageResource(R.drawable.baseline_access_time_filled_24)
             }else {
                 portadorVista.botonApuntarse.setOnClickListener {
                     var referenciaBaseDatos = FirebaseDatabase.getInstance().reference
@@ -82,7 +83,13 @@ class EventoAdaptador(private var listaEventos:MutableList<Evento>,private var l
                     referenciaBaseDatos.child("Inscripciones").child(id!!).setValue(inscripcion)
                     eventoActual.aforo = (eventoActual.aforo.toInt() + 1).toString()
                     referenciaBaseDatos.child("Eventos").child(eventoActual.id).setValue(eventoActual)
-                    portadorVista.botonApuntarse.setImageResource(R.drawable.baseline_check_circle_24)
+
+                    // Disable the button after it's clicked
+                    portadorVista.botonApuntarse.isClickable = false
+                    apuntado=true
+                    if (apuntado==true){
+                        portadorVista.botonApuntarse.setImageResource(R.drawable.baseline_check_circle_24)
+                    }
                 }
             }
 

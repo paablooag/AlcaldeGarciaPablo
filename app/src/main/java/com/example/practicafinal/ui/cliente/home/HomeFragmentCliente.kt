@@ -5,8 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.PopupMenu
+import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.practicafinal.Carta
@@ -22,6 +25,12 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
+
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.net.URL
+import org.json.JSONObject
 class HomeFragmentCliente : Fragment() {
     private lateinit var recycler: RecyclerView
     private var _binding: FragmentHomeClienteBinding? = null
@@ -29,10 +38,15 @@ class HomeFragmentCliente : Fragment() {
     private lateinit var adaptador: CartaAdaptador
     private var applicationcontext = this.context
     private lateinit var db_ref: DatabaseReference
+    private var isEur = true
+    private lateinit var convertButton: Button
+    val dbRef = FirebaseDatabase.getInstance().reference
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
+
     ): View {
         _binding = FragmentHomeClienteBinding.inflate(inflater, container, false)
         db_ref= FirebaseDatabase.getInstance().reference
@@ -131,8 +145,35 @@ class HomeFragmentCliente : Fragment() {
         }
 
         return _binding!!.root
+
+
+    }
+    private fun convertCurrency() {
+
+        dbRef.child("Cartas").get().addOnSuccessListener { dataSnapshot ->
+            dataSnapshot.children.forEach { childSnapshot ->
+                val price = childSnapshot.child("precio").value.toString().toDouble()
+                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+                    val rate = getConversionRate()
+                    val convertedPrice = if (isEur) price * rate else price / rate
+                    withContext(Dispatchers.Main) {
+                        // Aquí debes actualizar la vista con el nuevo precio
+
+                        isEur = !isEur
+                    }
+                }
+            }
+        }.addOnFailureListener{
+            // Aquí debes manejar el error
+        }
     }
 
+    private suspend fun getConversionRate(): Double {
+        val url = URL("https://api.exchangerate-api.com/v4/latest/EUR")
+        val resultText = url.readText()
+        val jsonObject = JSONObject(resultText)
+        return jsonObject.getJSONObject("rates").getDouble("USD")
+    }
     private fun filtrarCategoria(categoria: String){
         db_ref.child("Cartas")
             .addValueEventListener(object : ValueEventListener {
@@ -142,7 +183,7 @@ class HomeFragmentCliente : Fragment() {
                         ->
                         val pojo_carta = hijo?.getValue(Carta::class.java)
 
-                        if (pojo_carta!!.series.toInt() > 0 && pojo_carta.categoria.equals(categoria,true)) {
+                        if (pojo_carta!!.stock.toInt() > 0 && pojo_carta.categoria.equals(categoria,true)) {
                             lista.add(pojo_carta!!)
                         }
                     }
@@ -166,7 +207,7 @@ class HomeFragmentCliente : Fragment() {
                         ->
                         val pojo_carta = hijo?.getValue(Carta::class.java)
 
-                        if (pojo_carta!!.series.toInt() > 0) {
+                        if (pojo_carta!!.stock.toInt() > 0) {
                             lista.add(pojo_carta)
                         }
                     }

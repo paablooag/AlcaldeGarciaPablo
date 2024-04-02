@@ -47,26 +47,38 @@
             app:layout_constraintTop_toTopOf="@id/name_item" />
 
         <TextView
-            android:id="@+id/precio_item"
+            android:id="@+id/stock_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/categoria_item"
-            android:text="Precio"
+            android:text="Stock Disponible"
             android:maxLines="1"
             android:padding="15dp"
             />
 
         <TextView
-            android:id="@+id/stock_item"
+            android:id="@+id/precio_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:padding="15dp"
-            android:text="Stock Disponible"
+            android:text="Precio"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/precio_item" />
+            app:layout_constraintTop_toTopOf="@id/stock_item" />
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/convertCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+            <Button
+                android:id="@+id/btn_convert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="EUR/USD" />
+        </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.cardview.widget.CardView
         android:id="@+id/añadir_carrito"
@@ -78,6 +90,7 @@
         android:visibility="gone"
         >
         <ImageView
+            android:id="@+id/carrito_item"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:foregroundGravity="center"
@@ -86,5 +99,4 @@
             android:adjustViewBounds="true"
             />
     </androidx.cardview.widget.CardView>
-
 </androidx.cardview.widget.CardView>

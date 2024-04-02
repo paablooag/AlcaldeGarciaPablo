@@ -2,9 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".actividades.administrador.EventoInfo">
+
+
+
 
     <androidx.cardview.widget.CardView
         android:id="@+id/carview"
@@ -12,11 +16,13 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         >
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="20dp"
             >
+
             <ImageView
                 android:id="@+id/imagen_evento"
                 android:layout_width="match_parent"
@@ -70,8 +76,12 @@
                 app:layout_constraintEnd_toEndOf="@id/precio_evento"
                 android:layout_marginVertical="20dp"
                 />
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.cardview.widget.CardView>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewEvento"
         android:layout_width="match_parent"
@@ -80,4 +90,6 @@
         tools:listitem="@layout/item_usuario"
         android:padding="4dp"
         />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

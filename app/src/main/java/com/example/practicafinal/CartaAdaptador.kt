@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Filter
 import android.widget.Filterable
 import android.widget.ImageView
@@ -21,10 +22,17 @@ import com.example.practicafinal.actividades.administrador.EditarCarta
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.json.JSONObject
+import java.net.URL
 
 class CartaAdaptador(private val listaCartas:MutableList<Carta>): RecyclerView.Adapter<CartaAdaptador.CartaViewHolder>(),
     Filterable {
 
+    private var isEur = true
     private lateinit var contexto: Context
     private var listaFiltrada=listaCartas
     class CartaViewHolder(itemVista: View) : RecyclerView.ViewHolder(itemVista) {
@@ -34,6 +42,7 @@ class CartaAdaptador(private val listaCartas:MutableList<Carta>): RecyclerView.A
         val categoriaCarta=itemVista.findViewById<TextView>(R.id.categoria_item)
         val stockCarta=itemVista.findViewById<TextView>(R.id.stock_item)
         val añadirCarrito=itemVista.findViewById<CardView>(R.id.añadir_carrito)
+        val boton_convertir = itemVista.findViewById<Button>(R.id.btn_convert)
     }
     override fun onCreateViewHolder(grupoPadre: ViewGroup, tipoVista: Int): CartaViewHolder {
         val vistaItem =
@@ -46,8 +55,22 @@ class CartaAdaptador(private val listaCartas:MutableList<Carta>): RecyclerView.A
         val cartaActual=listaFiltrada[posicion]
         portadorVista.nombreCarta.text=cartaActual.nombre
         portadorVista.categoriaCarta.text="Categoria: "+cartaActual.categoria
-        portadorVista.precioCarta.text="Series: "+cartaActual.series
-        portadorVista.stockCarta.text="Repeticiones: "+cartaActual.repeticiones
+        portadorVista.stockCarta.text="Stock: "+cartaActual.stock
+        portadorVista.precioCarta.text="Precio: "+cartaActual.precio+"€"
+
+        portadorVista.boton_convertir.setOnClickListener {
+            GlobalScope.launch(Dispatchers.IO) {
+                val rate = getConversionRate()
+                val convertedPrice = if (isEur) cartaActual.precio.toDouble() * rate else cartaActual.precio.toDouble() / rate
+                val roundedPrice = String.format("%.2f", convertedPrice)
+                withContext(Dispatchers.Main) {
+                    var currencySymbol = if (isEur) "€" else "$"
+                    portadorVista.precioCarta.text="Precio: "+roundedPrice + currencySymbol
+                    isEur = !isEur
+                }
+            }
+        }
+
 
         val URL:String? = when (cartaActual.imagen){
             ""->null
@@ -69,14 +92,17 @@ class CartaAdaptador(private val listaCartas:MutableList<Carta>): RecyclerView.A
                 val referenciaBaseDatos = FirebaseDatabase.getInstance().getReference()
                 val idUsuario = FirebaseAuth.getInstance().currentUser?.uid
                 val id = referenciaBaseDatos.push().key
-                cartaActual.series=(cartaActual.series.toInt()-1).toString()
+                cartaActual.stock=(cartaActual.stock.toInt()-1).toString()
                 val idAndroid= Settings.Secure.getString(
                     contexto.contentResolver,
                     Settings.Secure.ANDROID_ID
                 )
                 referenciaBaseDatos.child("Cartas").child(cartaActual.id).setValue(cartaActual)
-                val pedido=Pedido(id!!, idUsuario!!, cartaActual.id, "pendiente", cartaActual.repeticiones, cartaActual.nombre,EstadoNoti.creado,idAndroid)
+                val pedido=Pedido(id!!, idUsuario!!, cartaActual.id, "pendiente", cartaActual.precio, cartaActual.nombre,EstadoNoti.creado,idAndroid)
                 Utilidades.crearPedido(referenciaBaseDatos, pedido)
+                val imageView = portadorVista.añadirCarrito.findViewById<ImageView>(R.id.carrito_item)
+                imageView.setImageResource(R.drawable.baseline_check_circle_24)
+
             }
 
         }else{
@@ -125,10 +151,14 @@ class CartaAdaptador(private val listaCartas:MutableList<Carta>): RecyclerView.A
                 true
             }
         }
-
         Glide.with(contexto).load(URL).apply(Utilidades.glideOptions(contexto)).transition(Utilidades.transition).into(portadorVista.fotoCarta)
     }
-
+    private suspend fun getConversionRate(): Double {
+        val url = URL("https://api.exchangerate-api.com/v4/latest/EUR")
+        val resultText = url.readText()
+        val jsonObject = JSONObject(resultText)
+        return jsonObject.getJSONObject("rates").getDouble("USD")
+    }
     override fun getItemCount(): Int = listaFiltrada.size
 
     override fun getFilter(): Filter {
