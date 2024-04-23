@@ -20,14 +20,27 @@
         android:adjustViewBounds="true"
         android:src="@drawable/logo"
         />
+
     <TextView
         android:id="@+id/nombre_usuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/img_usuario"
         android:layout_margin="5dp"
         android:text="Usuario"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/img_usuario"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Se ha unido al evento!"
+        app:layout_constraintTop_toBottomOf="@id/nombre_usuario"
+        app:layout_constraintStart_toStartOf="@id/nombre_usuario"
+        app:layout_constraintEnd_toEndOf="@id/nombre_usuario"
         />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView >

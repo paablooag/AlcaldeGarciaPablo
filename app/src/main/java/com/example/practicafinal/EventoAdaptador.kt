@@ -84,10 +84,10 @@ class EventoAdaptador(private var listaEventos:MutableList<Evento>,private var l
                     eventoActual.aforo = (eventoActual.aforo.toInt() + 1).toString()
                     referenciaBaseDatos.child("Eventos").child(eventoActual.id).setValue(eventoActual)
 
-                    // Disable the button after it's clicked
                     portadorVista.botonApuntarse.isClickable = false
                     apuntado=true
                     if (apuntado==true){
+                        // Cambiar la imagen cuando el cliente se inscribe en el evento
                         portadorVista.botonApuntarse.setImageResource(R.drawable.baseline_check_circle_24)
                     }
                 }
