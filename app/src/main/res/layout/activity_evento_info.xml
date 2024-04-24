@@ -7,9 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".actividades.administrador.EventoInfo">
 
-
-
-
     <androidx.cardview.widget.CardView
         android:id="@+id/carview"
         android:layout_width="match_parent"

@@ -85,11 +85,7 @@ class EventoAdaptador(private var listaEventos:MutableList<Evento>,private var l
                     referenciaBaseDatos.child("Eventos").child(eventoActual.id).setValue(eventoActual)
 
                     portadorVista.botonApuntarse.isClickable = false
-                    apuntado=true
-                    if (apuntado==true){
-                        // Cambiar la imagen cuando el cliente se inscribe en el evento
-                        portadorVista.botonApuntarse.setImageResource(R.drawable.baseline_check_circle_24)
-                    }
+
                 }
             }
 
