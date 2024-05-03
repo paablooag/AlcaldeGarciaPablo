@@ -29,7 +29,9 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/header"
             android:layout_width="match_parent"
-            android:layout_height="75dp"
+            android:layout_height="90dp"
+
+
             android:background="@color/black"
             app:layout_constraintTop_toTopOf="parent"
             >
@@ -57,6 +59,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="20dp"

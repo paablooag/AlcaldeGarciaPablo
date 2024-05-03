@@ -15,6 +15,7 @@ import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -35,6 +36,7 @@ class CartaAdaptador(private val listaCartas:MutableList<Carta>): RecyclerView.A
     private var isEur = true
     private lateinit var contexto: Context
     private var listaFiltrada=listaCartas
+    private var thisactivity = this
     class CartaViewHolder(itemVista: View) : RecyclerView.ViewHolder(itemVista) {
         val fotoCarta=itemVista.findViewById<ImageView>(R.id.photo_item)
         val nombreCarta=itemVista.findViewById<TextView>(R.id.name_item)
@@ -62,9 +64,10 @@ class CartaAdaptador(private val listaCartas:MutableList<Carta>): RecyclerView.A
             GlobalScope.launch(Dispatchers.IO) {
                 val rate = getConversionRate()
                 val convertedPrice = if (isEur) cartaActual.precio.toDouble() * rate else cartaActual.precio.toDouble() / rate
+                cartaActual.precio = convertedPrice.toString()
                 val roundedPrice = String.format("%.2f", convertedPrice)
                 withContext(Dispatchers.Main) {
-                    var currencySymbol = if (isEur) "€" else "$"
+                    var currencySymbol = if (isEur) "$" else "€"
                     portadorVista.precioCarta.text="Precio: "+roundedPrice + currencySymbol
                     isEur = !isEur
                 }
