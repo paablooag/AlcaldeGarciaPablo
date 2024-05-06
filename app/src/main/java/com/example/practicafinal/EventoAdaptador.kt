@@ -63,7 +63,6 @@ class EventoAdaptador(private var listaEventos:MutableList<Evento>,private var l
         var preferenciasCompartidas = PreferenceManager.getDefaultSharedPreferences(contexto)
         var tipoUsuario = preferenciasCompartidas.getString("tipo", "cliente")
 
-        var apuntado=false
         if (tipoUsuario.equals("cliente",true)) {
             portadorVista.itemView.setOnLongClickListener {
                 false
@@ -73,7 +72,8 @@ class EventoAdaptador(private var listaEventos:MutableList<Evento>,private var l
                     FirebaseAuth.getInstance().currentUser!!.uid,true
                 )
             ){
-                portadorVista.botonApuntarse.setImageResource(R.drawable.baseline_access_time_filled_24)
+                portadorVista.botonApuntarse.setImageResource(R.drawable.baseline_check_circle_24)
+                portadorVista.botonApuntarse.isClickable = false
             }else {
                 portadorVista.botonApuntarse.setOnClickListener {
                     var referenciaBaseDatos = FirebaseDatabase.getInstance().reference
@@ -84,8 +84,12 @@ class EventoAdaptador(private var listaEventos:MutableList<Evento>,private var l
                     eventoActual.aforo = (eventoActual.aforo.toInt() + 1).toString()
                     referenciaBaseDatos.child("Eventos").child(eventoActual.id).setValue(eventoActual)
 
-                    portadorVista.botonApuntarse.isClickable = false
 
+                    // Display a Toast message
+
+                    Toast.makeText(contexto, "Te has inscrito correctamente", Toast.LENGTH_SHORT).show()
+
+                    portadorVista.botonApuntarse.isClickable = false
                 }
             }
 
