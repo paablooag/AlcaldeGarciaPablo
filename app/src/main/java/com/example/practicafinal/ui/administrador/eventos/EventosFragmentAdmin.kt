@@ -22,7 +22,9 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-
+import androidx.appcompat.app.AppCompatDelegate
+import android.content.res.Configuration
+import android.view.MenuItem
 class EventosFragmentAdmin : Fragment() {
 
     private var _binding: FragmentEventosAdminBinding? = null
@@ -105,6 +107,22 @@ class EventosFragmentAdmin : Fragment() {
                         startActivity(newIntent)
                         true
                     }
+
+                    R.id.modo_dia_noche -> {
+                        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                            // Actualiza los colores de la interfaz para el modo claro
+                            context?.setTheme(R.style.AppTheme_Light)
+                        } else {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                            // Actualiza los colores de la interfaz para el modo oscuro
+                            context?.setTheme(R.style.AppTheme_Dark)
+                        }
+                        // Reinicia la actividad para que los cambios surtan efecto
+                        activity?.recreate()
+                        true
+                    }
+
 
                     else -> false
                 }

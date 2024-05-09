@@ -34,6 +34,7 @@ class EventoInfo : AppCompatActivity() {
         val aforoMax=findViewById<TextView>(R.id.aforo_max_evento)
         val aforoAct=findViewById<TextView>(R.id.aforo_act_evemto)
         val imagenEvento = findViewById<ImageView>(R.id.imagen_evento)
+        val fechaEvento=findViewById<TextView>(R.id.fecha_evento)
 
         var db_ref= FirebaseDatabase.getInstance().reference
         listaUsuarios= mutableListOf()
@@ -42,6 +43,7 @@ class EventoInfo : AppCompatActivity() {
         precioEvento.text=evento.precio
         aforoAct.text=evento.aforo
         aforoMax.text=evento.aforo_maximo
+        fechaEvento.text=evento.fecha
 
         val URL:String? = when (evento.imagen){
             ""->null

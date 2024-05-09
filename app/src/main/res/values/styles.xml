@@ -1,11 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Tema claro -->
+    <style name="AppTheme.Light" parent="Theme.AppCompat.Light">
+        <!-- Define los atributos de estilo específicos del tema claro -->
+        <item name="colorPrimary">@color/colorPrimaryLight</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkLight</item>
+        <item name="colorAccent">@color/colorAccentLight</item>
+        <!-- Otros atributos de estilo -->
+    </style>
+
+    <!-- Tema oscuro -->
+    <style name="AppTheme.Dark" parent="Theme.AppCompat">
+        <!-- Define los atributos de estilo específicos del tema oscuro -->
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkDark</item>
+        <item name="colorAccent">@color/colorAccentDark</item>
+        <!-- Otros atributos de estilo -->
+    </style>
+
+
+
     <style name="MiBottomNavigation" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
         <item name="android:color">@color/amarilloPokemonOscuro</item>
     </style>
 
     <color name="amarilloPokemon">#FECA05</color>
     <color name="amarilloPokemonOscuro">#60FECA05</color>
+    <color name="colorPrimaryLight">#EBEBEB</color>
+    <color name="colorPrimaryDarkLight">#070707</color>
+    <color name="colorAccentLight">#7C7C7C</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorPrimaryDarkDark">#8F8F8F</color>
+    <color name="colorAccentDark">#5A5959</color>
 
     <style name="DatePickerTheme" parent="android:Theme.Material.Light.Dialog">
         <item name="android:colorAccent">@color/black</item>

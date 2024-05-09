@@ -37,7 +37,7 @@ class PedidosAdaptador(private val listaPedidos:MutableList<Pedido>) : RecyclerV
 
     override fun onBindViewHolder(portadorVista: PedidoViewHolder, posicion: Int) {
         val pedidoActual=listaFiltrada[posicion]
-        portadorVista.nombrePedido.text="Nombre carta: "+pedidoActual.nombre
+        portadorVista.nombrePedido.text="Nombre producto: "+pedidoActual.nombre
         portadorVista.precioPedido.text="Precio: "+pedidoActual.precio+" €"
         portadorVista.estadoPedido.text="Estado: "+pedidoActual.estado
         portadorVista.idPedido.text=pedidoActual.id
@@ -48,7 +48,6 @@ class PedidosAdaptador(private val listaPedidos:MutableList<Pedido>) : RecyclerV
         if(tipoUsuario.equals("cliente") && pedidoActual.estado=="pendiente") {
             portadorVista.imagenEstadoPedido.setImageResource(R.drawable.baseline_access_time_filled_24)
         }else if(tipoUsuario.equals("admin") && pedidoActual.estado=="pendiente") {
-            portadorVista.imagenEstadoPedido.setImageResource(R.drawable.baseline_check_circle_24)
             portadorVista.imagenEstadoPedido.setOnClickListener {
                 val idAndroid= Settings.Secure.getString(
                     contexto.contentResolver,
