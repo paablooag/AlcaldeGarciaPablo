@@ -35,10 +35,12 @@ class EventoAdaptador(private var listaEventos:MutableList<Evento>,private var l
         val aforoMaxEvento=vistaItem.findViewById<TextView>(R.id.aforo_item_evento)
         val aforoActEvento=vistaItem.findViewById<TextView>(R.id.aforo_actual_item_evento)
         val botonApuntarse=vistaItem.findViewById<ImageView>(R.id.estado_evento)
-    }
+        val botonChat = vistaItem.findViewById<ImageView>(R.id.mensaje_privado_evento)
+     }
     override fun onCreateViewHolder(grupoPadre: ViewGroup, tipoVista: Int): EventoViewHolder {
         val vistaItem =
             LayoutInflater.from(grupoPadre.context).inflate(R.layout.item_evento, grupoPadre, false)
+
         contexto = grupoPadre.context
         return EventoViewHolder(vistaItem)
     }
@@ -48,6 +50,10 @@ class EventoAdaptador(private var listaEventos:MutableList<Evento>,private var l
         var inscripcion:Inscripcion?=Inscripcion()
         if (listaInscripciones!=null){
             inscripcion=listaInscripciones!!.find { it.id_evento.equals(eventoActual.id) }
+        }
+        portadorVista.botonChat.setOnClickListener {
+            val intent = Intent(contexto, MensajeActivity::class.java)
+            contexto.startActivity(intent)
         }
         portadorVista.nombreEvento.text=eventoActual.nombre
         portadorVista.fechaEvento.text="Fecha: "+eventoActual.fecha

@@ -20,7 +20,14 @@ import kotlinx.coroutines.tasks.await
 class Utilidades {
 
     companion object{
-
+        val transicion = DrawableTransitionOptions.withCrossFade(500)
+        fun opcionesGlide(context: Context):RequestOptions {
+            val options = RequestOptions()
+                .placeholder(load_animation(context))
+                .fallback(R.drawable.logo)
+                .error(R.drawable.baseline_error_24)
+            return options
+        }
         // Funciones de creación
         fun crearUsuario(email:String, password:String, nombre:String,img:String){
             val referenciaBaseDatos = FirebaseDatabase.getInstance().reference
