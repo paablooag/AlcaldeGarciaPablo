@@ -1,5 +1,6 @@
 package com.example.practicafinal.ui.administrador.eventos
 
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -25,6 +26,8 @@ import com.google.firebase.database.ValueEventListener
 import androidx.appcompat.app.AppCompatDelegate
 import android.content.res.Configuration
 import android.view.MenuItem
+import androidx.appcompat.view.ContextThemeWrapper
+
 class EventosFragmentAdmin : Fragment() {
 
     private var _binding: FragmentEventosAdminBinding? = null
@@ -33,25 +36,33 @@ class EventosFragmentAdmin : Fragment() {
     private lateinit var inscripcioines: MutableList<Inscripcion>
     private lateinit var adaptador: EventoAdaptador
     private var applicationcontext = this.context
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentEventosAdminBinding.inflate(inflater, container, false)
+        val context = requireContext()  // Obtén el contexto
+        val sharedPreferences = context.getSharedPreferences("AppPreferences", MODE_PRIVATE)
+        val isNightMode = sharedPreferences.getBoolean("NightMode", false)
+
+        // Usa ContextThemeWrapper para aplicar el tema adecuado
+        val themeContext = ContextThemeWrapper(context, if (isNightMode) R.style.AppTheme_Dark else R.style.AppTheme_Light)
+        val themedInflater = inflater.cloneInContext(themeContext)
+
+        _binding = FragmentEventosAdminBinding.inflate(themedInflater, container, false)
         val root: View = _binding!!.root
 
-        var user=FirebaseAuth.getInstance()
-        var db_ref= FirebaseDatabase.getInstance().reference
-        lista= mutableListOf<Evento>()
+        var user = FirebaseAuth.getInstance()
+        var db_ref = FirebaseDatabase.getInstance().reference
+        lista = mutableListOf<Evento>()
         inscripcioines = mutableListOf()
 
         db_ref.child("Eventos")
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     lista.clear()
-                    snapshot.children.forEach { hijo: DataSnapshot?
-                        ->
+                    snapshot.children.forEach { hijo: DataSnapshot? ->
                         val pojo_evento = hijo?.getValue(Evento::class.java)
                         lista.add(pojo_evento!!)
                     }
@@ -61,15 +72,13 @@ class EventosFragmentAdmin : Fragment() {
                 override fun onCancelled(error: DatabaseError) {
                     println(error.message)
                 }
-
             })
 
         db_ref.child("Inscripciones")
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     inscripcioines.clear()
-                    snapshot.children.forEach { hijo: DataSnapshot?
-                        ->
+                    snapshot.children.forEach { hijo: DataSnapshot? ->
                         val pojo_inscripcion = hijo?.getValue(Inscripcion::class.java)
                         inscripcioines.add(pojo_inscripcion!!)
                     }
@@ -79,10 +88,9 @@ class EventosFragmentAdmin : Fragment() {
                 override fun onCancelled(error: DatabaseError) {
                     println(error.message)
                 }
-
             })
 
-        adaptador = EventoAdaptador(lista,inscripcioines)
+        adaptador = EventoAdaptador(lista, inscripcioines)
         recycler = _binding!!.recyclerViewEventos
         recycler.adapter = adaptador
         recycler.layoutManager = LinearLayoutManager(applicationcontext)
@@ -97,32 +105,32 @@ class EventosFragmentAdmin : Fragment() {
                 when (item.itemId) {
                     R.id.log_out -> {
                         user.signOut()
-                        var newIntent= Intent(context, MainActivity::class.java)
+                        var newIntent = Intent(context, MainActivity::class.java)
                         startActivity(newIntent)
                         true
                     }
 
                     R.id.autor -> {
-                        var newIntent= Intent(context, Autor::class.java)
+                        var newIntent = Intent(context, Autor::class.java)
                         startActivity(newIntent)
                         true
                     }
 
                     R.id.modo_dia_noche -> {
-                        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                            // Actualiza los colores de la interfaz para el modo claro
-                            context?.setTheme(R.style.AppTheme_Light)
-                        } else {
-                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                            // Actualiza los colores de la interfaz para el modo oscuro
-                            context?.setTheme(R.style.AppTheme_Dark)
+                        // Alterna el tema
+                        val isNightMode = sharedPreferences.getBoolean("NightMode", false)
+                        val editor = sharedPreferences.edit()
+                        editor.putBoolean("NightMode", !isNightMode)
+                        editor.apply()
+
+                        // Reinicia la actividad para aplicar el nuevo tema
+                        val intent = activity?.intent
+                        activity?.finish()
+                        if (intent != null) {
+                            startActivity(intent)
                         }
-                        // Reinicia la actividad para que los cambios surtan efecto
-                        activity?.recreate()
                         true
                     }
-
 
                     else -> false
                 }
@@ -131,10 +139,8 @@ class EventosFragmentAdmin : Fragment() {
         }
 
         _binding!!.addCarta.setOnClickListener {
-
-            var newIntent= Intent(context, AnadirEvento::class.java)
+            var newIntent = Intent(context, AnadirEvento::class.java)
             startActivity(newIntent)
-
         }
 
         return root

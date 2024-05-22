@@ -3,10 +3,11 @@
     <!-- Tema claro -->
     <style name="AppTheme.Light" parent="Theme.AppCompat.Light">
         <!-- Define los atributos de estilo específicos del tema claro -->
-        <item name="colorPrimary">@color/colorPrimaryLight</item>
+        <item name="colorPrimary">@color/colorPrimaryLigh</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkLight</item>
         <item name="colorAccent">@color/colorAccentLight</item>
         <!-- Otros atributos de estilo -->
+        <item name="windowNoTitle">true</item>
     </style>
 
     <!-- Tema oscuro -->
@@ -16,6 +17,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDarkDark</item>
         <item name="colorAccent">@color/colorAccentDark</item>
         <!-- Otros atributos de estilo -->
+        <item name="windowNoTitle">true</item>
     </style>
 
 
@@ -32,6 +34,7 @@
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorPrimaryDarkDark">#8F8F8F</color>
     <color name="colorAccentDark">#5A5959</color>
+    <color name="colorPrimaryLigh">#494949</color>
 
     <style name="DatePickerTheme" parent="android:Theme.Material.Light.Dialog">
         <item name="android:colorAccent">@color/black</item>

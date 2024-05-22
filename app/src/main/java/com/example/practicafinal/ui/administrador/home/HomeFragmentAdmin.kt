@@ -1,11 +1,13 @@
 package com.example.practicafinal.ui.administrador.home
 
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.appcompat.view.ContextThemeWrapper
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -28,39 +30,44 @@ class HomeFragmentAdmin : Fragment() {
     private lateinit var lista: MutableList<Carta>
     private lateinit var adaptador: CartaAdaptador
     private var applicationcontext = this.context
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHomeAdminBinding.inflate(inflater, container, false)
-        var db_ref= FirebaseDatabase.getInstance().reference
+        val context = requireContext()  // Get the context
+        val sharedPreferences = context.getSharedPreferences("AppPreferences", MODE_PRIVATE)
+        val isNightMode = sharedPreferences.getBoolean("NightMode", false)
+
+        val themeContext = ContextThemeWrapper(context, if (isNightMode) R.style.AppTheme_Dark else R.style.AppTheme_Light)
+        val themedInflater = inflater.cloneInContext(themeContext)
+
+        _binding = FragmentHomeAdminBinding.inflate(themedInflater, container, false)
+        val rootView = _binding!!.root
+
+        var db_ref = FirebaseDatabase.getInstance().reference
         var user = FirebaseAuth.getInstance()
-        lista= mutableListOf<Carta>()
+        lista = mutableListOf<Carta>()
 
-        db_ref.child("Cartas")
-            .addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    lista.clear()
-                    snapshot.children.forEach { hijo: DataSnapshot?
-                        ->
-                        val pojo_carta = hijo?.getValue(Carta::class.java)
-                        lista.add(pojo_carta!!)
-                    }
-                    recycler.adapter?.notifyDataSetChanged()
+        db_ref.child("Cartas").addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                lista.clear()
+                snapshot.children.forEach { hijo: DataSnapshot? ->
+                    val pojo_carta = hijo?.getValue(Carta::class.java)
+                    lista.add(pojo_carta!!)
                 }
+                recycler.adapter?.notifyDataSetChanged()
+            }
 
-                override fun onCancelled(error: DatabaseError) {
-                    println(error.message)
-                }
-
-            })
+            override fun onCancelled(error: DatabaseError) {
+                println(error.message)
+            }
+        })
 
         adaptador = CartaAdaptador(lista)
         recycler = _binding!!.recyclerView
         recycler.adapter = adaptador
-        recycler.layoutManager = LinearLayoutManager(applicationcontext)
+        recycler.layoutManager = LinearLayoutManager(context)
 
         _binding!!.settings.setOnClickListener {
             val popupMenu = PopupMenu(context, it)
@@ -72,14 +79,30 @@ class HomeFragmentAdmin : Fragment() {
                     R.id.log_out -> {
                         // Handle item1 click
                         user.signOut()
-                        var newIntent= Intent(context, MainActivity::class.java)
+                        val newIntent = Intent(context, MainActivity::class.java)
                         startActivity(newIntent)
                         true
                     }
 
                     R.id.autor -> {
-                        var newIntent= Intent(context, Autor::class.java)
+                        val newIntent = Intent(context, Autor::class.java)
                         startActivity(newIntent)
+                        true
+                    }
+
+                    R.id.modo_dia_noche -> {
+                        // Toggle theme
+                        val isNightMode = sharedPreferences.getBoolean("NightMode", false)
+                        val editor = sharedPreferences.edit()
+                        editor.putBoolean("NightMode", !isNightMode)
+                        editor.apply()
+
+                        // Restart activity to apply the new theme
+                        val intent = activity?.intent
+                        activity?.finish()
+                        if (intent != null) {
+                            startActivity(intent)
+                        }
                         true
                     }
 
@@ -90,13 +113,11 @@ class HomeFragmentAdmin : Fragment() {
         }
 
         _binding!!.addCarta.setOnClickListener {
-
-            var newIntent= Intent(context, AnadirCarta::class.java)
+            val newIntent = Intent(context, AnadirCarta::class.java)
             startActivity(newIntent)
-
         }
 
-        return _binding!!.root
+        return rootView
     }
 
     override fun onDestroyView() {
