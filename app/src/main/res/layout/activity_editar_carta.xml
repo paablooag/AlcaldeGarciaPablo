@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".actividades.administrador.EditarCarta">
 
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -58,9 +59,10 @@
                 android:layout_height="wrap_content"
                 android:hint="Precio"
                 android:inputType="numberDecimal"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/add_stock"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_categoria"
+                app:layout_constraintEnd_toEndOf="parent"
+
                 android:layout_marginHorizontal="15dp"
                 android:layout_marginVertical="30dp"/>
 
@@ -68,11 +70,11 @@
                 android:id="@+id/add_stock"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="Repeticiones"
+                android:hint="Stock"
                 android:inputType="number"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_precio"
+                app:layout_constraintTop_toBottomOf="@id/add_categoria"
                 android:layout_marginHorizontal="15dp"
                 android:layout_marginVertical="30dp"/>
 
@@ -83,7 +85,7 @@
                 android:text="Guardar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_stock"
+                app:layout_constraintTop_toBottomOf="@id/add_precio"
                 android:layout_marginVertical="30dp"/>
 
             <Space
