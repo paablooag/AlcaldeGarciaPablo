@@ -36,7 +36,6 @@ class CartaAdaptador(private val listaCartas:MutableList<Carta>): RecyclerView.A
     private var isEur = true
     private lateinit var contexto: Context
     private var listaFiltrada=listaCartas
-    private var thisactivity = this
     class CartaViewHolder(itemVista: View) : RecyclerView.ViewHolder(itemVista) {
         val fotoCarta=itemVista.findViewById<ImageView>(R.id.photo_item)
         val nombreCarta=itemVista.findViewById<TextView>(R.id.name_item)
@@ -45,6 +44,7 @@ class CartaAdaptador(private val listaCartas:MutableList<Carta>): RecyclerView.A
         val stockCarta=itemVista.findViewById<TextView>(R.id.stock_item)
         val añadirCarrito=itemVista.findViewById<CardView>(R.id.añadir_carrito)
         val boton_convertir = itemVista.findViewById<Button>(R.id.btn_convert)
+        val informacion = itemVista.findViewById<ImageView>(R.id.info)
     }
     override fun onCreateViewHolder(grupoPadre: ViewGroup, tipoVista: Int): CartaViewHolder {
         val vistaItem =
@@ -74,6 +74,10 @@ class CartaAdaptador(private val listaCartas:MutableList<Carta>): RecyclerView.A
             }
         }
 
+        val intent = Intent(contexto, Informacion::class.java)
+        portadorVista.informacion.setOnClickListener {
+            contexto.startActivity(intent)
+        }
 
         val URL:String? = when (cartaActual.imagen){
             ""->null
