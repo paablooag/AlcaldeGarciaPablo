@@ -1,6 +1,7 @@
 package com.example.practicafinal
 
 import android.content.Context
+import android.os.Handler
 import android.preference.PreferenceManager
 import android.provider.Settings
 import android.view.LayoutInflater
@@ -36,6 +37,9 @@ class PedidosAdaptador(private val listaPedidos:MutableList<Pedido>) : RecyclerV
     }
 
     override fun onBindViewHolder(portadorVista: PedidoViewHolder, posicion: Int) {
+
+
+
         val pedidoActual=listaFiltrada[posicion]
         portadorVista.nombrePedido.text="Nombre producto: "+pedidoActual.nombre
         portadorVista.precioPedido.text="Precio: "+pedidoActual.precio+" €"
@@ -45,9 +49,20 @@ class PedidosAdaptador(private val listaPedidos:MutableList<Pedido>) : RecyclerV
         var preferenciasCompartidas = PreferenceManager.getDefaultSharedPreferences(contexto)
         var tipoUsuario = preferenciasCompartidas.getString("tipo", "cliente")
 
+
+        if(pedidoActual.estado=="confirmada" && tipoUsuario.equals("admin")) {
+            portadorVista.estadoPedido.visibility=View.GONE
+            portadorVista.imagenEstadoPedido.visibility=View.GONE
+            portadorVista.idPedido.visibility=View.GONE
+            portadorVista.nombrePedido.visibility=View.GONE
+            portadorVista.precioPedido.visibility=View.GONE
+        }
+
         if(tipoUsuario.equals("cliente") && pedidoActual.estado=="pendiente") {
             portadorVista.imagenEstadoPedido.setImageResource(R.drawable.baseline_access_time_filled_24)
         }else if(tipoUsuario.equals("admin") && pedidoActual.estado=="pendiente") {
+
+
             portadorVista.imagenEstadoPedido.setOnClickListener {
                 val idAndroid= Settings.Secure.getString(
                     contexto.contentResolver,
@@ -68,6 +83,7 @@ class PedidosAdaptador(private val listaPedidos:MutableList<Pedido>) : RecyclerV
                 Toast.makeText(contexto, "Pedido confirmado", Toast.LENGTH_SHORT).show()
             }
         }else{
+
             portadorVista.imagenEstadoPedido.setImageResource(R.drawable.baseline_check_circle_24)
         }
     }
